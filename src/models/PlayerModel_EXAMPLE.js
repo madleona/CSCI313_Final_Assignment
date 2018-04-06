@@ -1,6 +1,6 @@
 import GunModel from "./GunModel_EXAMPLE.js";
 
-export default class PlayerModel_EXAMPLE {
+export default class PlayerModel_EXAMPLE { 
 
     constructor(health = 100, max_health = 100) {
         this.max_speed = 200;
