@@ -1,7 +1,7 @@
 //require our other components
 //task Import any dependencies for Level 1
 //import Player from "../prefabs/Player.js";
-//import Enemy from "../prefabs/Enemy.js";
+import Enemy from "../prefabs/Enemy.js";
 //import NumberBox from "../prefabs/NumberBox.js";
 //import HealthBar from "../prefabs/HealthBar.js";
 //import Powerups from "../prefabs/Powerups.js"; 
@@ -44,6 +44,11 @@ export default class Level1 extends Phaser.State {
         //    let enemy = new Enemy(this.game, this.game.width + 100 + (Math.random() * 400), Math.random() * this.game.height, this.enemyBullets);
         //    this.enemies.add(enemy);
         //}
+
+        this.enemyBullets = this.add.group();
+        this.enemies = this.add.group();
+        let enemy = new Enemy(this.game, 100, 100, this.enemyBullets);
+        this.enemies.add(enemy);
 
         ////add the group for the powerups
         //this.powerups = this.add.group();

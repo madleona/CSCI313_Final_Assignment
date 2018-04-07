@@ -11,6 +11,7 @@ export default class Preload {
         //task We may need a different loading_bg based on the size our game is going to be
         //task cause I think it should be bigger than the size of the shooter game we're using as a template
         this.load.image('loading_bg', 'images/loading_bg.jpg');
+        this.load.image('enemy', 'images/temp_enemy.png');
     }
 
     create() {

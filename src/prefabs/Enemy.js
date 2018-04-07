@@ -4,10 +4,13 @@ export default class Enemy extends Phaser.Sprite {
         super(game, x, y, 'enemy', frame);
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.game.wid
 
         this.body.velocity.x = 100;
         this.bulletLayer = bulletLayer;
         this.outOfBoundsKill = true;
+        this.body.collideWorldBounds = true;
+        this.body.bounce.set(1);
 
     }
 
@@ -21,6 +24,9 @@ export default class Enemy extends Phaser.Sprite {
         // enemies wherever and not worry about weird, overlapping
         // physics. Also, they can change direction when they go
         // out of bounds
+        
+        console.log(this.body.velocity.x);
+        
     }
 
 }
