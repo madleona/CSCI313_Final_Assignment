@@ -12,6 +12,9 @@ export default class Preload {
         //task cause I think it should be bigger than the size of the shooter game we're using as a template
         this.load.image('loading_bg', 'images/loading_bg.jpg');
         this.load.image('enemy', 'images/temp_enemy.png');
+        this.load.image('level1', 'images/level_1_map.png');
+        this.load.image('level2', 'images/level_2_map.png');
+        this.load.image('level3', 'images/level_3_map.png');
     }
 
     create() {

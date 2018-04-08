@@ -17,6 +17,8 @@ export default class Level1 extends Phaser.State {
     }
     
     create() {
+        this.bg = this.add.tileSprite(0, 0, 300, 700, 'level1');
+
         console.log('In Level1.js, press SPACEBAR to progress to Level2.js');
 
         //this.spawnChancePowerup = .2;
@@ -47,8 +49,8 @@ export default class Level1 extends Phaser.State {
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
-        let enemy = new Enemy(this.game, 100, 100, this.enemyBullets);
-        this.enemies.add(enemy);
+        //let enemy = new Enemy(this.game, 100, 100, this.enemyBullets);
+        //this.enemies.add(enemy);
 
         ////add the group for the powerups
         //this.powerups = this.add.group();

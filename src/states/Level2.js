@@ -5,6 +5,7 @@ export default class Level2 extends Phaser.State {
     }
 
     create() {
+        this.bg = this.add.tileSprite(0, 0, 300, 700, 'level2');
         console.log("In Level2.js, press SPACEBAR to progress to Level3.js")
     }
 

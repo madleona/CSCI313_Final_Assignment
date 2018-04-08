@@ -5,6 +5,8 @@ export default class Level3 extends Phaser.State {
     }
 
     create() {
+        this.bg = this.add.tileSprite(0, 0, 300, 700, 'level3');
+
         console.log("In Level3.js, press SPACEBAR to progress to GameOverHappy.js, or press D (for Dead) to progress to GameOverSad.js");
     }
 

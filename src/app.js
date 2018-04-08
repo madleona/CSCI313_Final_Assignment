@@ -11,7 +11,8 @@ import GameOverSad from "./states/GameOverSad.js";
 
 
 window.onload = function () {
-    game = new Phaser.Game(1024, 768, Phaser.AUTO, 'canvasContainer');
+    // Game dimension was 1024x768. Changed so the map artwork fit.
+    game = new Phaser.Game(300, 700, Phaser.AUTO, 'canvasContainer');
     game.state.add('boot', Boot);
     game.state.add('preload', Preload);
     game.state.add('startScreen', StartScreen);
