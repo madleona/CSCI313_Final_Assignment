@@ -1,7 +1,8 @@
 export default class Enemy extends Phaser.Sprite {
 
-    constructor(game, x, y, bulletLayer, frame) {
-        super(game, x, y, 'enemy', frame);
+    constructor(game, x, y, type, bulletLayer, frame) {
+        // type should be rabbit, mushroom, etc.
+        super(game, x, y, type, frame);
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.game.wid
