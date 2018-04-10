@@ -19,7 +19,7 @@ export default class Player extends Phaser.Sprite {
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.attackButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
 
-        //idk if this is needed - chase
+        //we will need to change this for the sword swinging - chase
         //this.animations.add("fly", [0, 0, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10]);
         //this.fireAnimation = this.animations.add("fire", [11, 12, 13]);
         //this.fireAnimation.onComplete.add(this.playFly, this);
@@ -63,6 +63,8 @@ export default class Player extends Phaser.Sprite {
         {
             this.playerModel.sword.attack();
         }
+
+        //this.animations.play('swing');
     }
 
     /*
