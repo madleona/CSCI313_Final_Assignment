@@ -93,7 +93,7 @@ export default class Level1 extends Phaser.State {
         }
 
         //if the player is at the top of the level and within a certain x interval
-        if (this.player.y < 17 && 180 < this.player.x && this.player.x < 200) {
+        if (this.player.y < 17 && (180 <= this.player.x && this.player.x <= 200)) {
             console.log('Leaving Level1.js')
             this.game.state.start('level2')
         }
