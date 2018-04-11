@@ -18,6 +18,7 @@ export default class Preload {
         this.load.image('level3', 'images/level_3_map.png');
         this.load.image('rabbit', 'images/enemy_1.png');
         this.load.image('mushroom', 'images/enemy_2.png');
+        this.load.image('orb', 'images/orb.png');
     }
 
     create() {

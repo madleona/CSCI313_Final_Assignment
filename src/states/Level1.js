@@ -53,8 +53,8 @@ export default class Level1 extends Phaser.State {
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
-        //let enemy = new Enemy(this.game, 100, 100, this.enemyBullets);
-        //this.enemies.add(enemy);
+        let enemy = new Enemy(this.game, 100, 100, 'rabbit', this.enemyBullets);
+        this.enemies.add(enemy);
 
         ////add the group for the powerups
         //this.powerups = this.add.group();

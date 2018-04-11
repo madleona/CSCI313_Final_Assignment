@@ -5,9 +5,10 @@ export default class Enemy extends Phaser.Sprite {
         super(game, x, y, type, frame);
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
-        this.game.wid
 
-        this.body.velocity.x = 100;
+        if (type == 'rabbit') {
+            this.body.velocity.x = 100;
+        }
         this.bulletLayer = bulletLayer;
         this.outOfBoundsKill = true;
         this.body.collideWorldBounds = true;
@@ -16,17 +17,19 @@ export default class Enemy extends Phaser.Sprite {
     }
 
     fire() {
-        
+        let bullet = this.bulletLayer.create(this.x, this.y, "orb");
+        this.game.physics.enable(bullet, Phaser.Physics.ARCADE);
+        bullet.outOfBoundsKill = true;
+        bullet.checkWorldBounds = true;
+        bullet.body.velocity.y = 100;
     }
 
     update() {
-        // It would be nice if velocity.x switches direction
-        // when it hits something else. This would let us put
-        // enemies wherever and not worry about weird, overlapping
-        // physics. Also, they can change direction when they go
-        // out of bounds
+        this.willFire = Phaser.Utils.chanceRoll(1);
+        if (this.willFire) {
+            this.fire();
+        }
         
-        console.log(this.body.velocity.x);
         
     }
 
