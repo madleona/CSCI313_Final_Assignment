@@ -41,7 +41,7 @@ export default class Level1 extends Phaser.State {
         //this.game.add.existing(this.player);
 
         //add player
-        this.player = new Player(this.game, 0, 0);
+        this.player = new Player(this.game, 126, 650);
         this.game.add.existing(this.player);
 
         ////add a few enemeis..
@@ -84,10 +84,20 @@ export default class Level1 extends Phaser.State {
     //}
 
     update() {
+        //useful to tell the position of the player
+        //console.log("Player (x,y) : " + "(" + this.player.x + "," + this.player.y + ")");
+
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
             console.log('Leaving Level1.js')
             this.game.state.start('level2');
         }
+
+        //if the player is at the top of the level and within a certain x interval
+        if (this.player.y < 17 && 180 < this.player.x && this.player.x < 200) {
+            console.log('Leaving Level1.js')
+            this.game.state.start('level2')
+        }
+        
 
         //this.bg.tilePosition.x -= .5;
 
