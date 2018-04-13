@@ -1,3 +1,5 @@
+import Level1 from "../states/Level1.js";
+import Player from "../prefabs/Player.js";
 import Enemy from "../prefabs/Enemy.js";
 
 export default class Level2 extends Phaser.State {
@@ -14,6 +16,11 @@ export default class Level2 extends Phaser.State {
         this.enemies = this.add.group();
         let enemy = new Enemy(this.game, 100, 100, 'mushroom', this.enemyBullets);
         this.enemies.add(enemy);
+
+        //create the player again
+        //this.player = new Player(this.game, 0, 0, Level1.getPlayerHealth());
+        this.player = new Player(this.game, 193, 650, 100);
+        this.game.add.existing(this.player);
     }
 
     update() {
@@ -21,5 +28,13 @@ export default class Level2 extends Phaser.State {
             console.log('Leaving Level2.js')
             this.game.state.start('level3');
         }
+
+        if (this.player.y < 17 && (20 <= this.player.x && this.player.x <= 65)) {
+            console.log('Leaving Level2.js')
+            this.game.state.start('level3');
+        }
+
+        //useful to tell the position of the player
+        //console.log("Player (x,y) : " + "(" + this.player.x + "," + this.player.y + ")");
     }
 }

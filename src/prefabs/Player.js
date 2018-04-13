@@ -2,10 +2,10 @@ import PlayerModel from "../models/PlayerModel.js";
 
 export default class Player extends Phaser.Sprite {
 
-    constructor(game, x, y)
+    constructor(game, x, y, health = 100)
     {
         super(game, x, y, 'princess_default', 0);
-        this.playerModel = new PlayerModel(10, 10);
+        this.playerModel = new PlayerModel(10, 10, health);
 
         //This code is specifically related to how the player model is "viewed"
         game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -58,10 +58,7 @@ export default class Player extends Phaser.Sprite {
         }
 
         if (this.cursors.up.isUp && this.cursors.down.isUp) {
-            this.body.velocity.y = 0;
-
-            //show normal model
-            //super.loadTexture('princess');   
+            this.body.velocity.y = 0; 
         }
 
         if (this.attackButton.isDown) {
@@ -75,8 +72,6 @@ export default class Player extends Phaser.Sprite {
         {
             this.playerModel.sword.attack();
         }
-
-        //this.animations.play('swing');
     }
 
     damage(amt)
