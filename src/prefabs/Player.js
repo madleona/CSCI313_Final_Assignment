@@ -4,7 +4,7 @@ export default class Player extends Phaser.Sprite {
 
     constructor(game, x, y)
     {
-        super(game, x, y, 'princess', 0);
+        super(game, x, y, 'princess_default', 0);
         this.playerModel = new PlayerModel(10, 10);
 
         //This code is specifically related to how the player model is "viewed"
@@ -26,14 +26,14 @@ export default class Player extends Phaser.Sprite {
             this.body.velocity.x = -this.playerModel.max_speed;
 
             //show left model
-            super.loadTexture('rabbit');
+            super.loadTexture('princess_left');
         }
 
         if (this.cursors.right.isDown) {
             this.body.velocity.x = this.playerModel.max_speed;
 
             //show right model
-            super.loadTexture('mushroom');
+            super.loadTexture('princess_right');
         }
 
         if (this.cursors.left.isUp && this.cursors.right.isUp) {
@@ -47,14 +47,14 @@ export default class Player extends Phaser.Sprite {
             this.body.velocity.y = -this.playerModel.max_speed;
 
             //show up model
-            super.loadTexture('enemy');
+            super.loadTexture('princess_up');
         }
 
         if (this.cursors.down.isDown) {
             this.body.velocity.y = this.playerModel.max_speed;
 
             //show down model
-            super.loadTexture('loading_bg');
+            super.loadTexture('princess_default');
         }
 
         if (this.cursors.up.isUp && this.cursors.down.isUp) {
