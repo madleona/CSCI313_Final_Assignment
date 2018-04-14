@@ -7,12 +7,19 @@ export default class Enemy extends Phaser.Sprite {
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         if (type == 'rabbit') {
-            this.body.velocity.x = 100;
+            this.body.velocity.x = -100; // starting velocity
         }
         this.bulletLayer = bulletLayer;
         this.outOfBoundsKill = true;
+
+        // handle what happens when an enemy hits the edge of the map
         this.body.collideWorldBounds = true;
+        this.body.onWorldBounds = new Phaser.Signal();
+        this.body.onWorldBounds.add(this.hitWorldBounds, this)
+
         this.body.bounce.set(1);
+
+        this.currentVelocity = this.body.velocity.x;
 
     }
 
@@ -30,7 +37,19 @@ export default class Enemy extends Phaser.Sprite {
             this.fire();
         }
         
+    }
+
+    hitWorldBounds(sprite) {
+        this.scale.x *= -1;
+        // The axis it flips over isn't in the middle of the enemy, so
+        // it's necessary to offset that change in position. Google results
+        // second this method. - Kaleb
+        // P.S. this feels like a Phaser bug, but depending on the direction
+        // an enemy is moving, its width could be negative ¯\_(?)_/¯
+        // So, only one line will fix the offset issue.
+        this.body.x -= this.width;
         
+        console.log(this.width);
     }
 
 }
