@@ -124,6 +124,7 @@ export default class Level1 extends Phaser.State {
         //}
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
+        this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
 
         //this.physics.arcade.overlap(this.enemies, this.bullets, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets2, this.damageEnemy, null, this);

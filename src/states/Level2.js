@@ -34,7 +34,18 @@ export default class Level2 extends Phaser.State {
             this.game.state.start('level3');
         }
 
+        this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
+
+        if (this.player.playerModel.health <= 0) {
+            this.game.state.start('gameOverSad')
+        }
+
         //useful to tell the position of the player
         //console.log("Player (x,y) : " + "(" + this.player.x + "," + this.player.y + ")");
+    }
+
+    damagePlayer(playerRef, enemyRef) {
+        this.player.damage(100);
+        enemyRef.kill();
     }
 }

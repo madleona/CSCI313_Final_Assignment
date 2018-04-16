@@ -3,12 +3,17 @@ export default class Enemy extends Phaser.Sprite {
     constructor(game, x, y, type, bulletLayer, frame) {
         // type should be rabbit, mushroom, etc.
         super(game, x, y, type, frame);
+        this.type = type;
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         if (type == 'rabbit') {
-            this.body.velocity.x = -100; // starting velocity
+            this.body.velocity.x = -100;// starting velocity
         }
+        else if (type == 'mushroom') {
+            this.body.velocity.x = -300;// starting velocity
+        }
+
         this.bulletLayer = bulletLayer;
         this.outOfBoundsKill = true;
 
@@ -32,11 +37,24 @@ export default class Enemy extends Phaser.Sprite {
     }
 
     update() {
-        this.willFire = Phaser.Utils.chanceRoll(1);
+        //this.willFire = Phaser.Utils.chanceRoll(1);
+        this.willFire = Phaser.Utils.chanceRoll(3);
         if (this.willFire) {
             this.fire();
         }
-        
+
+        if (this.type == 'rabbit') {
+            this.willFire = Phaser.Utils.chanceRoll(2);
+            if (this.willFire) {
+                this.fire();
+            }
+        }
+        else if (this.type == 'mushroom') {
+            this.willFire = Phaser.Utils.chanceRoll(1000);
+            if (this.willFire) {
+                this.fire();
+            }
+        }
     }
 
     hitWorldBounds(sprite) {
