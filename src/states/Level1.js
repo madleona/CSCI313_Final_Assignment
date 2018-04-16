@@ -132,6 +132,12 @@ export default class Level1 extends Phaser.State {
         //this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
         //this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
         //this.physics.arcade.overlap(this.player, this.powerups, this.obtainPowerup, null, this)
+
+        console.log('health: ' + this.player.playerModel.health);
+
+        if (this.player.playerModel.health <= 0) {
+            this.game.state.start('gameOverSad')
+        }
     }
 
     //incrementWave() {
@@ -139,6 +145,7 @@ export default class Level1 extends Phaser.State {
     //}
 
     damagePlayer(playerRef, enemyRef) {
+        this.player.damage(100);
         enemyRef.kill();
     }
 
