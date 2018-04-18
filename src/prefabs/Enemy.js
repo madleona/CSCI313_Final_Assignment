@@ -38,10 +38,10 @@ export default class Enemy extends Phaser.Sprite {
 
     update() {
         //this.willFire = Phaser.Utils.chanceRoll(1);
-        this.willFire = Phaser.Utils.chanceRoll(3);
-        if (this.willFire) {
-            this.fire();
-        }
+        //this.willFire = Phaser.Utils.chanceRoll(3);
+        //if (this.willFire) {
+        //    this.fire();
+        //}
 
         if (this.type == 'rabbit') {
             this.willFire = Phaser.Utils.chanceRoll(1);
@@ -66,8 +66,6 @@ export default class Enemy extends Phaser.Sprite {
         // an enemy is moving, its width could be negative ¯\_(?)_/¯
         // So, only one line will fix the offset issue.
         this.body.x -= this.width;
-        
-        console.log(this.width);
     }
 
 }
