@@ -10,9 +10,9 @@ export default class Enemy extends Phaser.Sprite {
         if (type == 'rabbit') {
             this.body.velocity.x = -100;// starting velocity
         }
-        else if (type == 'mushroom') {
-            this.body.velocity.x = -300;// starting velocity
-        }
+        //else if (type == 'mushroom') {
+        //    this.body.velocity.x = -300;// starting velocity
+        //}
 
         this.bulletLayer = bulletLayer;
         this.outOfBoundsKill = true;
@@ -44,13 +44,13 @@ export default class Enemy extends Phaser.Sprite {
         }
 
         if (this.type == 'rabbit') {
-            this.willFire = Phaser.Utils.chanceRoll(2);
+            this.willFire = Phaser.Utils.chanceRoll(1);
             if (this.willFire) {
                 this.fire();
             }
         }
         else if (this.type == 'mushroom') {
-            this.willFire = Phaser.Utils.chanceRoll(1000);
+            this.willFire = Phaser.Utils.chanceRoll(1);
             if (this.willFire) {
                 this.fire();
             }
