@@ -18,6 +18,7 @@ export default class Player extends Phaser.Sprite {
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.attackButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        this.swingReset = true;
     }
 
     update() {
@@ -63,12 +64,17 @@ export default class Player extends Phaser.Sprite {
 
         if (this.attackButton.isDown) {
             this.attack();
+            this.swingReset = false;
+        }
+
+        if (this.attackButton.isUp) {
+            this.swingReset = true;
         }
     }
 
     attack()
     {
-        if (this.playerModel.sword.canBeSwung())
+        if (this.playerModel.sword.canBeSwung(this.swingReset))
         {
             this.playerModel.sword.attack();
         }

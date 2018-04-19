@@ -134,7 +134,7 @@ export default class Level1 extends Phaser.State {
         //this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
         //this.physics.arcade.overlap(this.player, this.powerups, this.obtainPowerup, null, this)
 
-        console.log('health: ' + this.player.playerModel.health);
+        //console.log('health: ' + this.player.playerModel.health);
 
         if (this.player.playerModel.health <= 0) {
             this.game.state.start('gameOverSad')

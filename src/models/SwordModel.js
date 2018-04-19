@@ -11,9 +11,9 @@ export default class SwordModel
         console.log('attack');
     }
 
-    canBeSwung()
+    canBeSwung(swingReset)
     {
-        if (Date.now() - this.lastSwing >= 500) {
+        if (Date.now() - this.lastSwing >= 500 && swingReset) {
             return true;
         } else {
             return false;

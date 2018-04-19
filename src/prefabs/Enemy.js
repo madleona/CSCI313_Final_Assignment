@@ -67,7 +67,7 @@ export default class Enemy extends Phaser.Sprite {
         // So, only one line will fix the offset issue.
         this.body.x -= this.width;
         
-        console.log(this.width);
+        //console.log(this.width);
     }
 
 }
