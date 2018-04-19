@@ -10,9 +10,9 @@ export default class Enemy extends Phaser.Sprite {
         if (type == 'rabbit') {
             this.body.velocity.x = -100;// starting velocity
         }
-        else if (type == 'mushroom') {
-            this.body.velocity.x = -300;// starting velocity
-        }
+        //else if (type == 'mushroom') {
+        //    this.body.velocity.x = -300;// starting velocity
+        //}
 
         this.bulletLayer = bulletLayer;
         this.outOfBoundsKill = true;
@@ -38,19 +38,19 @@ export default class Enemy extends Phaser.Sprite {
 
     update() {
         //this.willFire = Phaser.Utils.chanceRoll(1);
-        this.willFire = Phaser.Utils.chanceRoll(3);
-        if (this.willFire) {
-            this.fire();
-        }
+        //this.willFire = Phaser.Utils.chanceRoll(3);
+        //if (this.willFire) {
+        //    this.fire();
+        //}
 
         if (this.type == 'rabbit') {
-            this.willFire = Phaser.Utils.chanceRoll(2);
+            this.willFire = Phaser.Utils.chanceRoll(1);
             if (this.willFire) {
                 this.fire();
             }
         }
         else if (this.type == 'mushroom') {
-            this.willFire = Phaser.Utils.chanceRoll(1000);
+            this.willFire = Phaser.Utils.chanceRoll(1);
             if (this.willFire) {
                 this.fire();
             }
@@ -66,8 +66,6 @@ export default class Enemy extends Phaser.Sprite {
         // an enemy is moving, its width could be negative ¯\_(?)_/¯
         // So, only one line will fix the offset issue.
         this.body.x -= this.width;
-        
-        //console.log(this.width);
     }
 
 }
