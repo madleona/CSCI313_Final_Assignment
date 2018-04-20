@@ -19,6 +19,8 @@ export default class Preload {
         this.load.image('level1', 'images/level_1_map.png');
         this.load.image('level2', 'images/level_2_map.png');
         this.load.image('level3', 'images/level_3_map.png');
+        this.load.image('game_over_happy', 'images/game_over_happy.png');
+        this.load.image('game_over_sad', 'images/game_over_sad.png');
         this.load.image('rabbit', 'images/rabbit.png');
         this.load.image('mushroom', 'images/mushroom.png');
         this.load.image('dragon', 'images/dragon.png');
