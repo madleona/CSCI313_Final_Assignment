@@ -39,6 +39,7 @@ export default class Enemy extends Phaser.Sprite {
         this.game.physics.enable(bullet, Phaser.Physics.ARCADE);
         bullet.outOfBoundsKill = true;
         bullet.checkWorldBounds = true;
+        bullet.body.velocity.x = this.game.rnd.integerInRange(-100, 100);
         bullet.body.velocity.y = 100;
     }
 
