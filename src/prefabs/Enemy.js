@@ -29,7 +29,13 @@ export default class Enemy extends Phaser.Sprite {
     }
 
     fire() {
-        let bullet = this.bulletLayer.create(this.x, this.y, "orb");
+        let bullet;
+        if (this.type == 'dragon') {
+            bullet = this.bulletLayer.create(this.x + 100, this.y, 'fireball');
+        } else {
+            bullet = this.bulletLayer.create(this.x, this.y, "orb");
+        }
+        
         this.game.physics.enable(bullet, Phaser.Physics.ARCADE);
         bullet.outOfBoundsKill = true;
         bullet.checkWorldBounds = true;
@@ -50,6 +56,12 @@ export default class Enemy extends Phaser.Sprite {
             }
         }
         else if (this.type == 'mushroom') {
+            this.willFire = Phaser.Utils.chanceRoll(1);
+            if (this.willFire) {
+                this.fire();
+            }
+        }
+        else if (this.type == 'dragon') {
             this.willFire = Phaser.Utils.chanceRoll(1);
             if (this.willFire) {
                 this.fire();
