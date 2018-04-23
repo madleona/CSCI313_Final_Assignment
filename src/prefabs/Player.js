@@ -19,6 +19,7 @@ export default class Player extends Phaser.Sprite {
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.attackButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         this.swingReset = true;
+        this.direction = 'normal';
     }
 
     update() {
@@ -28,6 +29,7 @@ export default class Player extends Phaser.Sprite {
 
             //show left model
             super.loadTexture('princess_left');
+            this.direction = 'left';
         }
 
         if (this.cursors.right.isDown) {
@@ -35,13 +37,11 @@ export default class Player extends Phaser.Sprite {
 
             //show right model
             super.loadTexture('princess_right');
+            this.direction = 'right';
         }
 
         if (this.cursors.left.isUp && this.cursors.right.isUp) {
             this.body.velocity.x = 0;
-
-            //show normal model
-            //super.loadTexture('princess');
         }
 
         if (this.cursors.up.isDown) {
@@ -49,6 +49,7 @@ export default class Player extends Phaser.Sprite {
 
             //show up model
             super.loadTexture('princess_up');
+            this.direction = 'up';
         }
 
         if (this.cursors.down.isDown) {
@@ -56,6 +57,7 @@ export default class Player extends Phaser.Sprite {
 
             //show down model
             super.loadTexture('princess_default');
+            this.direction = 'normal;
         }
 
         if (this.cursors.up.isUp && this.cursors.down.isUp) {
@@ -76,8 +78,20 @@ export default class Player extends Phaser.Sprite {
     {
         if (this.playerModel.sword.canBeSwung(this.swingReset))
         {
+            switch (this.graphic) {
+                case 'normal':
+                    super.loadTexture('princess_default');
+            }
             this.playerModel.sword.attack();
+            //change back to whatever the graphic was
         }
+
+        /*
+        this.load.image('princess_default_attack', 'images/princess_up_attack.png');
+        this.load.image('princess_left_attack', 'images/princess_left_attack.png');
+        this.load.image('princess_right_attack', 'images/princess_right_arrow.png');
+        this.load.image('princess_down_attack', 'images/princess_down_attack.png');
+        */
     }
 
     damage(amt)
