@@ -17,10 +17,10 @@ export default class Preload {
         this.load.image('princess_right', 'images/princess_right_arrow.png');
         this.load.image('princess_up', 'images/princess_up_arrow.png');
 
-        this.load.image('princess_default_attack', 'images/princess_up_attack.png');
+        this.load.image('princess_up_attack', 'images/princess_up_attack.png');
         this.load.image('princess_left_attack', 'images/princess_left_attack.png');
         this.load.image('princess_right_attack', 'images/princess_right_arrow.png');
-        this.load.image('princess_down_attack', 'images/princess_down_attack.png');
+        this.load.image('princess_default_attack', 'images/princess_down_attack.png');
 
         this.load.image('enemy', 'images/temp_enemy.png');
         this.load.image('level1', 'images/level_1_map.png');

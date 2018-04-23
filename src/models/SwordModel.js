@@ -2,13 +2,14 @@ export default class SwordModel
 {
     constructor()
     {
-        this.lastSwing = Date.now() - 500; //So that we can fire the gun
+        this.projectiles = 10;
+        this.lastSwing = Date.now() - 500; //So that we c swing the sword
     }
 
     attack()
     {
         this.lastSwing = Date.now();
-        console.log('attack');
+        this.projectiles -= 1;
     }
 
     canBeSwung(swingReset)
