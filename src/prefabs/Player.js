@@ -2,7 +2,7 @@ import PlayerModel from "../models/PlayerModel.js";
 
 export default class Player extends Phaser.Sprite {
 
-    constructor(game, x, y, health = 100)
+    constructor(game, x, y, projectiles, health = 100)
     {
         super(game, x, y, 'princess_default', 0);
         this.playerModel = new PlayerModel(10, 10, health);
@@ -13,8 +13,9 @@ export default class Player extends Phaser.Sprite {
         this.body.drag.y = 35;
         this.body.collideWorldBounds = true;
 
-        //idk if this is needed - chase
-        //this.fireposition = { x: 160, y: 100 };
+        this.fireposition = { x: 0, y: 0 };
+
+        this.projectileSpites = projectiles;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.attackButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -57,7 +58,7 @@ export default class Player extends Phaser.Sprite {
 
             //show down model
             super.loadTexture('princess_default');
-            this.direction = 'normal;
+            this.direction = 'normal';
         }
 
         if (this.cursors.up.isUp && this.cursors.down.isUp) {
@@ -78,20 +79,35 @@ export default class Player extends Phaser.Sprite {
     {
         if (this.playerModel.sword.canBeSwung(this.swingReset))
         {
-            switch (this.graphic) {
+            switch (this.direction) {
                 case 'normal':
-                    super.loadTexture('princess_default');
+                    super.loadTexture('princess_default_attack');
+                case 'right':
+                    super.loadTexture('princess_right_attack');
+                case 'left':
+                    super.loadTexture('princess_left_attack');
+                case 'up':
+                    super.loadTexture('princess_up_attack');
             }
-            this.playerModel.sword.attack();
-            //change back to whatever the graphic was
-        }
 
-        /*
-        this.load.image('princess_default_attack', 'images/princess_up_attack.png');
-        this.load.image('princess_left_attack', 'images/princess_left_attack.png');
-        this.load.image('princess_right_attack', 'images/princess_right_arrow.png');
-        this.load.image('princess_down_attack', 'images/princess_down_attack.png');
-        */
+            this.playerModel.sword.attack();
+            //change back to whatever the graphic was, but after a little while
+            //i'm not sure how to do that yet, but I'll figure it out
+
+            let projectile = this.projectileSpites.getFirstDead();
+            if (projectile) {
+                projectile.x = this.x + this.fireposition.x;
+                projectile.y = this.y + this.fireposition.y;
+                projectile.revive();
+            } else {
+                projectile = this.projectileSpites.create(this.x + this.fireposition.x, this.y + this.fireposition.y, "projectile");
+                this.game.physics.enable(projectile, Phaser.Physics.ARCADE);
+                projectile.outOfBoundsKill = true;
+                projectile.checkWorldBounds = true;
+                //projectile.body.velocity.x = 200;
+                projectile.body.velocity.y = -200;
+            }
+        }
     }
 
     damage(amt)

@@ -30,6 +30,7 @@ export default class Level1 extends Phaser.State {
 
         //this.bg = this.add.tileSprite(0, 0, 1024, 768, 'bg');
 
+        this.projectiles = this.add.group();
         //this.bullets = this.add.group();
         //this.bullets2 = this.add.group();
         //this.bullets3 = this.add.group();
@@ -41,7 +42,7 @@ export default class Level1 extends Phaser.State {
         //this.game.add.existing(this.player);
 
         //add player
-        this.player = new Player(this.game, 126, 650);
+        this.player = new Player(this.game, 126, 650, this.projectiles);
         this.game.add.existing(this.player);
 
         ////add a few enemeis..
@@ -125,6 +126,7 @@ export default class Level1 extends Phaser.State {
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
+        this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
 
         //this.physics.arcade.overlap(this.enemies, this.bullets, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets2, this.damageEnemy, null, this);
@@ -148,6 +150,11 @@ export default class Level1 extends Phaser.State {
     damagePlayer(playerRef, enemyRef) {
         this.player.damage(100);
         enemyRef.kill();
+    }
+
+    damageEnemy(enemy, projectile) {
+        enemy.kill();
+        projectile.kill();
     }
 
     getPlayerHealth() {
