@@ -79,15 +79,36 @@ export default class Player extends Phaser.Sprite {
     {
         if (this.playerModel.sword.canBeSwung(this.swingReset))
         {
+            var yVelocity = 0;
+            var xVelocity = 0;
+
+            console.log("this.direction: " + this.direction);
+
             switch (this.direction) {
                 case 'normal':
+                {
                     super.loadTexture('princess_default_attack');
+                    yVelocity = 200;
+                    break;
+                }
                 case 'right':
+                {
                     super.loadTexture('princess_right_attack');
+                    xVelocity = 200;
+                    break;
+                }
                 case 'left':
+                {
                     super.loadTexture('princess_left_attack');
+                    xVelocity = -200;
+                    break;
+                }
                 case 'up':
+                {
                     super.loadTexture('princess_up_attack');
+                    yVelocity = -200;
+                    break;
+                    }
             }
 
             this.playerModel.sword.attack();
@@ -99,13 +120,16 @@ export default class Player extends Phaser.Sprite {
                 projectile.x = this.x + this.fireposition.x;
                 projectile.y = this.y + this.fireposition.y;
                 projectile.revive();
+
+                projectile.body.velocity.y = yVelocity;
+                projectile.body.velocity.x = xVelocity;
             } else {
                 projectile = this.projectileSpites.create(this.x + this.fireposition.x, this.y + this.fireposition.y, "projectile");
                 this.game.physics.enable(projectile, Phaser.Physics.ARCADE);
                 projectile.outOfBoundsKill = true;
                 projectile.checkWorldBounds = true;
-                //projectile.body.velocity.x = 200;
-                projectile.body.velocity.y = -200;
+                projectile.body.velocity.y = yVelocity;
+                projectile.body.velocity.x = xVelocity;
             }
         }
     }

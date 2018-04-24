@@ -13,7 +13,7 @@ export default class Level3 extends Phaser.State {
         //create the player again
         //this.player = new Player(this.game, 0, 0, Level1.getPlayerHealth());
         this.projectiles = this.add.group();
-        this.player = new Player(this.game, 193, 650, this.projectiles);
+        this.player = new Player(this.game, 43, 650, this.projectiles);
         this.game.add.existing(this.player);
 
         console.log("In Level3.js, press SPACEBAR to progress to GameOverHappy.js, or press D (for Dead) to progress to GameOverSad.js");

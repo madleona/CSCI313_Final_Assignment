@@ -9,12 +9,12 @@ export default class SwordModel
     attack()
     {
         this.lastSwing = Date.now();
-        this.projectiles -= 1;
+        //this.projectiles -= 1;
     }
 
     canBeSwung(swingReset)
     {
-        if (Date.now() - this.lastSwing >= 500 && swingReset) {
+        if (Date.now() - this.lastSwing - 1000 >= 500 && swingReset) {
             return true;
         } else {
             return false;

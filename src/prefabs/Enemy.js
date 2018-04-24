@@ -63,7 +63,7 @@ export default class Enemy extends Phaser.Sprite {
             }
         }
         else if (this.type == 'dragon') {
-            this.willFire = Phaser.Utils.chanceRoll(1);
+            this.willFire = Phaser.Utils.chanceRoll(5);
             if (this.willFire) {
                 this.fire();
             }
