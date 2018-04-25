@@ -6,6 +6,7 @@ export default class Heart extends Phaser.Group {
         this.game = game;
         this.x = x;
         this.y = y;
+
         this.fullHeart = 'heart';
         this.emptyHeart = 'empty_heart';
 
