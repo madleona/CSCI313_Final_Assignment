@@ -160,6 +160,8 @@ export default class Level1 extends Phaser.State {
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
+        //switch (this.player.direction)
+            //case ''
         if (enemyBullet.body.velocity.y > 0)
             enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y
         projectile.kill();
