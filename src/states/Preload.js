@@ -33,6 +33,8 @@ export default class Preload {
         this.load.image('dragon', 'images/dragon.png');
         this.load.image('orb', 'images/orb.png');
         this.load.image('fireball', 'images/fireball.png');
+        this.load.image('heart', 'images/heart.png');
+        this.load.image('empty_heart', 'images/empty_heart.png');
     }
 
     create() {

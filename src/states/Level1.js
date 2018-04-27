@@ -2,6 +2,7 @@
 //task Import any dependencies for Level 1
 import Player from "../prefabs/Player.js";
 import Enemy from "../prefabs/Enemy.js";
+import HealthBar from "../prefabs/HealthBar.js";
 //import NumberBox from "../prefabs/NumberBox.js";
 //import HealthBar from "../prefabs/HealthBar.js";
 //import Powerups from "../prefabs/Powerups.js"; 
@@ -57,6 +58,8 @@ export default class Level1 extends Phaser.State {
         this.enemies = this.add.group();
         let enemy = new Enemy(this.game, 100, 100, 'rabbit', this.enemyBullets);
         this.enemies.add(enemy);
+
+        this.health = new HealthBar(this.game, 200, 10);
 
         ////add the group for the powerups
         //this.powerups = this.add.group();
@@ -150,7 +153,13 @@ export default class Level1 extends Phaser.State {
     //}
 
     damagePlayer(playerRef, enemyRef) {
-        this.player.damage(100);
+        this.health.loseLife();
+        console.log(this.health.livesLeft())
+        if (this.health.livesLeft() == 0) {
+            this.player.damage(100);
+        }
+
+        //this.player.damage(100);
         enemyRef.kill();
     }
 
