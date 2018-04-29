@@ -35,6 +35,8 @@ export default class Preload {
         this.load.image('fireball', 'images/fireball.png');
         this.load.image('heart', 'images/heart.png');
         this.load.image('empty_heart', 'images/empty_heart.png');
+
+        this.load.audio('level_1_music', 'music/sunny_side_up_2.mp3');
     }
 
     create() {

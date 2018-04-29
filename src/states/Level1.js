@@ -76,6 +76,9 @@ export default class Level1 extends Phaser.State {
         //this.waveTimer = this.game.time.create(false);
         //this.waveTimer.loop(20000, this.incrementWave, this);
         //this.waveTimer.start();
+
+        var music = this.game.add.audio('level_1_music');
+        music.play();
     }
 
     //setupUI() {
