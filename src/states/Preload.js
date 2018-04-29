@@ -38,7 +38,7 @@ export default class Preload {
         this.load.audio('level_3_music', 'music/battle_vs_gyokaijuu.ogg');
         this.load.audio('good_ending_music', 'music/castle_town.mp3');
         this.load.audio('bad_ending_music', 'music/lose_music.wav');
-        this.load.audio('attack_sound', 'music/shimmer.flac');
+        this.load.audio('attack_sound', 'music/magic_chime_2.mp3');
         this.load.audio('bottle_sound', 'music/bottle_break.wav');
     }
 

@@ -16,7 +16,7 @@ export default class Level3 extends Phaser.State {
         this.player = new Player(this.game, 43, 650, this.projectiles);
         this.game.add.existing(this.player);
 
-        console.log("In Level3.js, press SPACEBAR to progress to GameOverHappy.js, or press D (for Dead) to progress to GameOverSad.js");
+        console.log("In Level3.js, press H to progress to GameOverHappy.js");
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
@@ -36,16 +36,10 @@ export default class Level3 extends Phaser.State {
             this.game.state.start('gameOverSad')
         }
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.H)) {
             console.log('Leaving Level3.js to GameOverHappy.js');
             this.game.sound.stopAll();
             this.game.state.start('gameOverHappy');
-        }
-
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
-            console.log('Leaving Level3.js to GameOverSad.js');
-            this.game.sound.stopAll();
-            this.game.state.start('gameOverSad');
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);

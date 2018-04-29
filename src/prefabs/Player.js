@@ -18,12 +18,15 @@ export default class Player extends Phaser.Sprite {
         this.projectileSpites = projectiles;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
-        this.attackButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        this.attackButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.swingReset = true;
         this.direction = 'normal';
+
+        
     }
 
     update() {
+        var sound = this.game.add.audio('attack_sound');
         // write your prefab's specific update code here
         if (this.cursors.left.isDown) {
             this.body.velocity.x = -this.playerModel.max_speed;
@@ -66,6 +69,7 @@ export default class Player extends Phaser.Sprite {
         }
 
         if (this.attackButton.isDown) {
+            sound.play();
             this.attack();
             this.swingReset = false;
         }
