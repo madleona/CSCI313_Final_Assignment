@@ -7,11 +7,7 @@ export default class Preload {
 
     preload() {
         console.log('In Preload.js');
-
-        //task We may need a different loading_bg based on the size our game is going to be
-        //task cause I think it should be bigger than the size of the shooter game we're using as a template
-        this.load.image('loading_bg', 'images/loading_bg.jpg');
-
+        
         this.load.image('princess_default', 'images/princess.png');
         this.load.image('princess_left', 'images/princess_left_arrow.png');
         this.load.image('princess_right', 'images/princess_right_arrow.png');
@@ -36,18 +32,13 @@ export default class Preload {
         this.load.image('heart', 'images/heart.png');
         this.load.image('empty_heart', 'images/empty_heart.png');
 
+        this.load.audio('startscreen_music', 'music/magic_tales.mp3');
         this.load.audio('level_1_music', 'music/sunny_side_up_2.mp3');
     }
 
     create() {
-        this.add.sprite(0, 0, "loading_bg");
-
-        //! I think this is the code for the loading bar graphic? Not sure though. Leaving it anyways - Madelyn
-        this.asset = this.add.sprite(this.game.width / 2, this.game.height / 2, 'preloader');
-        this.asset.anchor.setTo(0.5, 0.5);
 
         this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
-        this.load.setPreloadSprite(this.asset);
 
         //task Load in graphics here, use the following commented code as examples.
         //this.load.image('player', 'assets/images/player.png'); //width and height of sprite
