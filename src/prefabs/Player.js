@@ -128,7 +128,7 @@ export default class Player extends Phaser.Sprite {
                 projectile.body.velocity.y = yVelocity;
                 projectile.body.velocity.x = xVelocity;
             } else {
-                projectile = this.projectileSpites.create(this.x + this.fireposition.x, this.y + this.fireposition.y, "projectile");
+                projectile = this.projectileSpites.create(this.x + this.fireposition.x, this.y + this.fireposition.y, "sparkle");
                 this.game.physics.enable(projectile, Phaser.Physics.ARCADE);
                 projectile.outOfBoundsKill = true;
                 projectile.checkWorldBounds = true;
