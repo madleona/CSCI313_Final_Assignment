@@ -6,7 +6,6 @@ export default class GameOverSad {
 
         var music = this.game.add.audio('bad_ending_music');
         music.play();
-        music.loopFull();
     }
 
     update() {
