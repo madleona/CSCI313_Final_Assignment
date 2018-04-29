@@ -22,22 +22,29 @@ export default class Level3 extends Phaser.State {
         this.enemies = this.add.group();
         let enemy = new Enemy(this.game, 100, 100, 'dragon', this.enemyBullets);
         this.enemies.add(enemy);
+
+        var music = this.game.add.audio('level_3_music');
+        music.play();
+        music.loopFull();
     }
 
     update() {
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
         if (this.player.playerModel.health <= 0) {
+            this.game.sound.stopAll();
             this.game.state.start('gameOverSad')
         }
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            console.log('Leaving Level3.js to GameOverHappy.js')
+            console.log('Leaving Level3.js to GameOverHappy.js');
+            this.game.sound.stopAll();
             this.game.state.start('gameOverHappy');
         }
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
-            console.log('Leaving Level3.js to GameOverSad.js')
+            console.log('Leaving Level3.js to GameOverSad.js');
+            this.game.sound.stopAll();
             this.game.state.start('gameOverSad');
         }
 

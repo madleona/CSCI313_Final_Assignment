@@ -34,6 +34,12 @@ export default class Preload {
 
         this.load.audio('startscreen_music', 'music/magic_tales.mp3');
         this.load.audio('level_1_music', 'music/sunny_side_up_2.mp3');
+        this.load.audio('level_2_music', 'music/the_herd_and_the_nest_system.ogg');
+        this.load.audio('level_3_music', 'music/battle_vs_gyokaijuu.ogg');
+        this.load.audio('good_ending_music', 'music/castle_town.mp3');
+        this.load.audio('bad_ending_music', 'music/lose_music.wav');
+        this.load.audio('attack_sound', 'music/shimmer.flac');
+        this.load.audio('bottle_sound', 'music/bottle_break.wav');
     }
 
     create() {

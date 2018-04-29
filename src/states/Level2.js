@@ -10,7 +10,6 @@ export default class Level2 extends Phaser.State {
 
     create() {
         this.bg = this.add.tileSprite(0, 0, 300, 700, 'level2');
-        console.log("In Level2.js, press SPACEBAR to progress to Level3.js")
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
@@ -22,22 +21,22 @@ export default class Level2 extends Phaser.State {
         this.projectiles = this.add.group();
         this.player = new Player(this.game, 193, 650, this.projectiles);
         this.game.add.existing(this.player);
+
+        var music = this.game.add.audio('level_2_music');
+        music.play();
+        music.loopFull();
     }
 
     update() {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            console.log('Leaving Level2.js')
-            this.game.state.start('level3');
-        }
-
         if (this.player.y < 17 && (20 <= this.player.x && this.player.x <= 65)) {
-            console.log('Leaving Level2.js')
+            this.game.sound.stopAll();
             this.game.state.start('level3');
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
 
         if (this.player.playerModel.health <= 0) {
+            this.game.sound.stopAll();
             this.game.state.start('gameOverSad')
         }
 
