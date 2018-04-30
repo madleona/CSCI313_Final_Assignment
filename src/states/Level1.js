@@ -52,6 +52,7 @@ export default class Level1 extends Phaser.State {
         this.enemies.add(enemy1);
         this.enemies.add(enemy2);
         this.enemies.add(enemy3);
+        this.numEnemies = 3;
 
         this.game.lives = 3; // patch for when restarting the game and game.lives != 3;
         this.health = new HealthBar(this.game, 200, 10, this.game.lives);
@@ -107,10 +108,13 @@ export default class Level1 extends Phaser.State {
     //}
 
     update() {
+        console.log("this.numEnemies: " + this.numEnemies);
+
         //useful to tell the position of the player
         //console.log("Player (x,y) : " + "(" + this.player.x + "," + this.player.y + ")");
         //if the player is at the top of the level and within a certain x interval
-        if (this.player.y < 17 && (180 <= this.player.x && this.player.x <= 200)) {
+        //and if are the enemies are dead
+        if (this.player.y < 17 && (180 <= this.player.x && this.player.x <= 200) && this.numEnemies == 0) {
             this.game.sound.stopAll();
             this.game.state.start('level2')
         }
@@ -140,7 +144,7 @@ export default class Level1 extends Phaser.State {
         //}
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
-        this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
+        this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayerEnemy, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
 
@@ -193,9 +197,22 @@ export default class Level1 extends Phaser.State {
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-
         //this.player.damage(100);
         enemyRef.kill();
+
+        //this.numEnemies--;
+    }
+
+    damagePlayerEnemy(playerRef, enemyRef) {
+        this.health.loseLife();
+        console.log(this.health.livesLeft())
+        if (this.health.livesLeft() == 0) {
+            this.player.damage(100);
+        }
+        //this.player.damage(100);
+        enemyRef.kill();
+
+        this.numEnemies--;
     }
 
     damageEnemy(enemy, projectile) {
@@ -211,28 +228,31 @@ export default class Level1 extends Phaser.State {
             var heart = this.hearts.create(x, y, 'heart');
             this.physics.arcade.enableBody(heart);
         }
+
+        this.numEnemies--;
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
-        console.log("projectile.direction: " + projectile.direction);
-        console.log("(enemyBullet.body.velocity.x,enemyBullet.body.velocity.y): (" + enemyBullet.body.velocity.x + "," + enemyBullet.body.velocity.y +")");
-        switch (projectile.directionn) {
+        switch (projectile.direction) {
             case 'right':
+                if (enemyBullet.body.velocity.x < 0)
+                    enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
+                break;
             case 'left':
-                enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
+                if (enemyBullet.body.velocity.x > 0)
+                    enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
                 break;
             case 'up':
+                if (enemyBullet.body.velocity.y > 0)
+                    enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+                break;
             case 'normal':
-                enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+                if (enemyBullet.body.velocity.y < 0)
+                    enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
                 break;
             default: { break; }
-            
         }
 
-        console.log("(enemyBullet.body.velocity.x,enemyBullet.body.velocity.y) (" + enemyBullet.body.velocity.x + "," + enemyBullet.body.velocity.y + ")");
-
-        //if (enemyBullet.body.velocity.y > 0)
-            //enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y
         projectile.kill();
     }
 

@@ -24,6 +24,7 @@ export default class Level2 extends Phaser.State {
         this.enemies.add(enemy3);
         this.enemies.add(enemy4);
         this.enemies.add(enemy5);
+        this.numEnemies = 5;
 
         //create the player again
         //this.player = new Player(this.game, 0, 0, Level1.getPlayerHealth());
@@ -59,7 +60,9 @@ export default class Level2 extends Phaser.State {
     }
 
     update() {
-        if (this.player.y < 17 && (20 <= this.player.x && this.player.x <= 65)) {
+        console.log("this.numEnemies: " + this.numEnemies);
+
+        if (this.player.y < 17 && (20 <= this.player.x && this.player.x <= 65) && this.numEnemies == 0) {
             this.game.sound.stopAll();
             this.game.state.start('level3');
         }
@@ -72,7 +75,7 @@ export default class Level2 extends Phaser.State {
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
-        this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
+        this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayerEnemy, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
 
@@ -103,6 +106,20 @@ export default class Level2 extends Phaser.State {
         }
         //this.player.damage(100);
         enemyRef.kill();
+
+        //this.numEnemies--;
+    }
+
+    damagePlayerEnemy(playerRef, enemyRef) {
+        this.health.loseLife();
+        console.log(this.health.livesLeft())
+        if (this.health.livesLeft() == 0) {
+            this.player.damage(100);
+        }
+        //this.player.damage(100);
+        enemyRef.kill();
+
+        this.numEnemies--;
     }
 
     damageEnemy(enemy, projectile) {
@@ -118,11 +135,31 @@ export default class Level2 extends Phaser.State {
             var heart = this.hearts.create(x, y, 'heart');
             this.physics.arcade.enableBody(heart);
         }
+
+        this.numEnemies--;
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
-        if (enemyBullet.body.velocity.y > 0)
-            enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+        switch (projectile.direction) {
+            case 'right':
+                if (enemyBullet.body.velocity.x < 0)
+                    enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
+                break;
+            case 'left':
+                if (enemyBullet.body.velocity.x > 0)
+                    enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
+                break;
+            case 'up':
+                if (enemyBullet.body.velocity.y > 0)
+                    enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+                break;
+            case 'normal':
+                if (enemyBullet.body.velocity.y < 0)
+                    enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+                break;
+            default: { break; }
+        }
+
         projectile.kill();
     }
 

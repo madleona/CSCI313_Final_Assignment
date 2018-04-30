@@ -80,6 +80,7 @@ export default class Level3 extends Phaser.State {
         }
         //this.player.damage(100);
         enemyRef.kill();
+        this.numEnemies--;
     }
 
     damageEnemy(enemy, projectile) {
@@ -98,8 +99,26 @@ export default class Level3 extends Phaser.State {
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
-        if (enemyBullet.body.velocity.y > 0)
-            enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+        switch (projectile.direction) {
+            case 'right':
+                if (enemyBullet.body.velocity.x < 0)
+                    enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
+                break;
+            case 'left':
+                if (enemyBullet.body.velocity.x > 0)
+                    enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
+                break;
+            case 'up':
+                if (enemyBullet.body.velocity.y > 0)
+                    enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+                break;
+            case 'normal':
+                if (enemyBullet.body.velocity.y < 0)
+                    enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+                break;
+            default: { break; }
+        }
+
         projectile.kill();
     }
 
