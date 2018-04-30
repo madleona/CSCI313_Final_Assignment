@@ -46,6 +46,7 @@ export default class Level1 extends Phaser.State {
         this.projectiles = this.add.group();
         this.player = new Player(this.game, 126, 650, this.projectiles);
         this.game.add.existing(this.player);
+        this.lastDirection = "";
 
         ////add a few enemeis..
         //this.enemies = this.add.group();
@@ -169,10 +170,19 @@ export default class Level1 extends Phaser.State {
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
-        //switch (this.player.direction)
-            //case ''
-        if (enemyBullet.body.velocity.y > 0)
-            enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y
+        console.log(projectile.direction);
+        switch (projectile.directionn) {
+            case 'right':
+            case 'left':
+                enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
+                break;
+            default:
+                enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y
+        }
+
+
+        //if (enemyBullet.body.velocity.y > 0)
+            //enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y
         projectile.kill();
     }
 

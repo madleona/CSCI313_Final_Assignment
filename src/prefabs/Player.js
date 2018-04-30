@@ -20,6 +20,7 @@ export default class Player extends Phaser.Sprite {
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.attackButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         this.swingReset = true;
+        this.lastFireDirection = "";
         this.direction = 'normal';
     }
 
@@ -82,7 +83,7 @@ export default class Player extends Phaser.Sprite {
             var yVelocity = 0;
             var xVelocity = 0;
 
-            console.log("this.direction: " + this.direction);
+            this.lastFireDirection = this.direction;
 
             switch (this.direction) {
                 case 'normal':
@@ -120,17 +121,16 @@ export default class Player extends Phaser.Sprite {
                 projectile.x = this.x + this.fireposition.x;
                 projectile.y = this.y + this.fireposition.y;
                 projectile.revive();
-
-                projectile.body.velocity.y = yVelocity;
-                projectile.body.velocity.x = xVelocity;
             } else {
                 projectile = this.projectileSpites.create(this.x + this.fireposition.x, this.y + this.fireposition.y, "projectile");
                 this.game.physics.enable(projectile, Phaser.Physics.ARCADE);
                 projectile.outOfBoundsKill = true;
                 projectile.checkWorldBounds = true;
-                projectile.body.velocity.y = yVelocity;
-                projectile.body.velocity.x = xVelocity;
             }
+
+            projectile.direction = this.direction;
+            projectile.body.velocity.y = yVelocity;
+            projectile.body.velocity.x = xVelocity;
         }
     }
 
