@@ -26,11 +26,15 @@ export default class Level3 extends Phaser.State {
 
         this.health = new HealthBar(this.game, 200, 10, this.game.lives);
 
+        this.pots = this.add.group();
+        this.spawnPot(0, 670);
+        this.spawnPot(35, 670);
+        this.spawnPot(270, 670);
+        this.spawnPot(235, 670);
+
         var music = this.game.add.audio('level_3_music');
         music.play();
         music.loopFull();
-
-        
     }
 
     update() {
@@ -51,6 +55,10 @@ export default class Level3 extends Phaser.State {
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
+
+        this.physics.arcade.collide(this.player, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.pots, null, null, this);
 
     }
 
@@ -78,5 +86,14 @@ export default class Level3 extends Phaser.State {
 
     getPlayerHealth() {
         return this.player.playerModel.health;
+    }
+
+    spawnPot(x, y) {
+        var pot = this.pots.create(x, y, 'pot');
+        this.physics.arcade.enableBody(pot);
+        pot.body.allowGravity = false;
+        pot.body.immovable = true;
+
+        return pot;
     }
 }
