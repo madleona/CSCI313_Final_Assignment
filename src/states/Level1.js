@@ -191,16 +191,22 @@ export default class Level1 extends Phaser.State {
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
-        console.log(projectile.direction);
+        console.log("projectile.direction: " + projectile.direction);
+        console.log("(enemyBullet.body.velocity.x,enemyBullet.body.velocity.y): (" + enemyBullet.body.velocity.x + "," + enemyBullet.body.velocity.y +")");
         switch (projectile.directionn) {
             case 'right':
             case 'left':
                 enemyBullet.body.velocity.x = -enemyBullet.body.velocity.x;
                 break;
-            default:
-                enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y
+            case 'up':
+            case 'normal':
+                enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
+                break;
+            default: { break; }
+            
         }
 
+        console.log("(enemyBullet.body.velocity.x,enemyBullet.body.velocity.y) (" + enemyBullet.body.velocity.x + "," + enemyBullet.body.velocity.y + ")");
 
         //if (enemyBullet.body.velocity.y > 0)
             //enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y
