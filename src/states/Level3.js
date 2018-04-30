@@ -126,6 +126,10 @@ export default class Level3 extends Phaser.State {
         enemyBullet.kill();
     }
 
+    enemyCollide(enemy, sprite) {
+        enemy.changeDirection();
+    }
+
     projectileCollide(projectile, obstacle) {
         projectile.kill();
     }
