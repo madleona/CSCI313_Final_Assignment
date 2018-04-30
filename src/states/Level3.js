@@ -55,7 +55,12 @@ export default class Level3 extends Phaser.State {
     }
 
     damagePlayer(playerRef, enemyRef) {
-        this.player.damage(100);
+        this.health.loseLife();
+        console.log(this.health.livesLeft())
+        if (this.health.livesLeft() == 0) {
+            this.player.damage(100);
+        }
+        //this.player.damage(100);
         enemyRef.kill();
     }
 
