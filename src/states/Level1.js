@@ -1,27 +1,16 @@
-//require our other components
-//task Import any dependencies for Level 1
 import Player from "../prefabs/Player.js";
 import Enemy from "../prefabs/Enemy.js";
 import HealthBar from "../prefabs/HealthBar.js";
-//import NumberBox from "../prefabs/NumberBox.js";
-//import HealthBar from "../prefabs/HealthBar.js";
-//import Powerups from "../prefabs/Powerups.js"; 
-
-//task Level 1 should contain the level 1 map, level 1 enemies, and level 1 items (for example, pots you can destroy and get health)
-//task You progress to the next level by reaching the end of the level 1 map without dying
 
 export default class Level1 extends Phaser.State {
 
     constructor() {
-        //object level properties
         super();
     }
     
     create() {
         this.bg = this.add.tileSprite(0, 0, 300, 700, 'level1');
-
-        console.log('In Level1.js, press SPACEBAR to progress to Level2.js');
-
+        
         //this.spawnChancePowerup = .2;
         //this.spawnChance = .02;
         //this.score = 0;
@@ -60,7 +49,9 @@ export default class Level1 extends Phaser.State {
         let enemy = new Enemy(this.game, 100, 100, 'rabbit', this.enemyBullets);
         this.enemies.add(enemy);
 
-        this.health = new HealthBar(this.game, 200, 10);
+        this.game.lives = 3; // patch for when restarting the game and game.lives != 3;
+        this.health = new HealthBar(this.game, 200, 10, this.game.lives);
+    
 
         ////add the group for the powerups
         //this.powerups = this.add.group();
@@ -77,6 +68,26 @@ export default class Level1 extends Phaser.State {
         //this.waveTimer = this.game.time.create(false);
         //this.waveTimer.loop(20000, this.incrementWave, this);
         //this.waveTimer.start();
+
+        this.trees = this.add.group();
+        this.spawnTree(0, 0);
+        this.spawnTree(0, 75);
+        this.spawnTree(75, 0);
+        this.spawnTree(120, 140);
+        this.spawnTree(55, 585);
+        this.spawnTree(225, 275);
+
+        this.fences = this.add.group();
+        this.spawnFence(0, 285);
+        this.spawnFence(50, 285);
+
+        this.pots = this.add.group();
+        this.spawnPot(0, 255);
+        this.spawnPot(30, 255);
+
+        var music = this.game.add.audio('level_1_music');
+        music.play();
+        music.loopFull();
     }
 
     //setupUI() {
@@ -92,16 +103,9 @@ export default class Level1 extends Phaser.State {
     update() {
         //useful to tell the position of the player
         //console.log("Player (x,y) : " + "(" + this.player.x + "," + this.player.y + ")");
-
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            console.log('Leaving Level1.js')
-            this.game.state.start('level2');
-        }
-
         //if the player is at the top of the level and within a certain x interval
         if (this.player.y < 17 && (180 <= this.player.x && this.player.x <= 200)) {
-            console.log('Leaving Level1.js')
-
+            this.game.sound.stopAll();
             this.game.state.start('level2')
         }
         
@@ -134,6 +138,18 @@ export default class Level1 extends Phaser.State {
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
 
+        this.physics.arcade.collide(this.player, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.trees, null, null, this);
+
+        this.physics.arcade.collide(this.player, this.fences, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.fences, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.fences, null, null, this);
+
+        this.physics.arcade.collide(this.player, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.pots, null, null, this);
+
         //this.physics.arcade.overlap(this.enemies, this.bullets, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets2, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets3, this.damageEnemy, null, this);
@@ -145,6 +161,7 @@ export default class Level1 extends Phaser.State {
         //console.log('health: ' + this.player.playerModel.health);
 
         if (this.player.playerModel.health <= 0) {
+            this.game.sound.stopAll();
             this.game.state.start('gameOverSad')
         }
     }
@@ -167,6 +184,7 @@ export default class Level1 extends Phaser.State {
     damageEnemy(enemy, projectile) {
         enemy.kill();
         projectile.kill();
+        delete enemy.type; // Probs a better way of doing this
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
@@ -190,6 +208,32 @@ export default class Level1 extends Phaser.State {
         return this.player.playerModel.health;
     }
 
+    spawnTree(x, y) {
+        var tree = this.trees.create(x, y, 'tree');
+        this.physics.arcade.enableBody(tree);
+        tree.body.allowGravity = false;
+        tree.body.immovable = true;
+
+        return tree;
+    }
+
+    spawnFence(x, y) {
+        var fence = this.fences.create(x, y, 'fence');
+        this.physics.arcade.enableBody(fence);
+        fence.body.allowGravity = false;
+        fence.body.immovable = true;
+
+        return fence;
+    }
+
+    spawnPot(x, y) {
+        var pot = this.pots.create(x, y, 'pot');
+        this.physics.arcade.enableBody(pot);
+        pot.body.allowGravity = false;
+        pot.body.immovable = true;
+
+        return pot;
+    }
     
     //damagePlayer(playerRef, enemyRef) {
     //    this.player.damage(1);

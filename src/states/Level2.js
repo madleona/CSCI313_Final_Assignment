@@ -1,6 +1,7 @@
 import Level1 from "../states/Level1.js";
 import Player from "../prefabs/Player.js";
 import Enemy from "../prefabs/Enemy.js";
+import HealthBar from "../prefabs/HealthBar.js";
 
 export default class Level2 extends Phaser.State {
 
@@ -10,7 +11,6 @@ export default class Level2 extends Phaser.State {
 
     create() {
         this.bg = this.add.tileSprite(0, 0, 300, 700, 'level2');
-        console.log("In Level2.js, press SPACEBAR to progress to Level3.js")
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
@@ -22,22 +22,42 @@ export default class Level2 extends Phaser.State {
         this.projectiles = this.add.group();
         this.player = new Player(this.game, 193, 650, this.projectiles);
         this.game.add.existing(this.player);
+
+        this.health = new HealthBar(this.game, 200, 10, this.game.lives);
+
+        this.trees = this.add.group();
+        this.spawnTree(120, 15);
+        this.spawnTree(155, 130);
+        this.spawnTree(155, 205);
+        this.spawnTree(230, 215);
+        this.spawnTree(0, 370);
+        this.spawnTree(75, 360);
+        this.spawnTree(150, 370);
+        this.spawnTree(65, 525);
+        this.spawnTree(135, 615);
+        this.spawnTree(215, 500);
+
+        this.pots = this.add.group();
+        this.spawnPot(270, 130);
+        this.spawnPot(270, 160);
+        this.spawnPot(270, 190);
+        this.spawnPot(70, 600);
+        
+        var music = this.game.add.audio('level_2_music');
+        music.play();
+        music.loopFull();
     }
 
     update() {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            console.log('Leaving Level2.js')
-            this.game.state.start('level3');
-        }
-
         if (this.player.y < 17 && (20 <= this.player.x && this.player.x <= 65)) {
-            console.log('Leaving Level2.js')
+            this.game.sound.stopAll();
             this.game.state.start('level3');
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
 
         if (this.player.playerModel.health <= 0) {
+            this.game.sound.stopAll();
             this.game.state.start('gameOverSad')
         }
 
@@ -45,16 +65,30 @@ export default class Level2 extends Phaser.State {
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
+
+        this.physics.arcade.collide(this.player, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.trees, null, null, this);
+
+        this.physics.arcade.collide(this.player, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.pots, null, null, this);
     }
 
     damagePlayer(playerRef, enemyRef) {
-        this.player.damage(100);
+        this.health.loseLife();
+        console.log(this.health.livesLeft())
+        if (this.health.livesLeft() == 0) {
+            this.player.damage(100);
+        }
+        //this.player.damage(100);
         enemyRef.kill();
     }
 
     damageEnemy(enemy, projectile) {
         enemy.kill();
         projectile.kill();
+        delete enemy.type;
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
@@ -65,5 +99,23 @@ export default class Level2 extends Phaser.State {
 
     getPlayerHealth() {
         return this.player.playerModel.health;
+    }
+
+    spawnTree(x, y) {
+        var tree = this.trees.create(x, y, 'tree');
+        this.physics.arcade.enableBody(tree);
+        tree.body.allowGravity = false;
+        tree.body.immovable = true;
+
+        return tree;
+    }
+
+    spawnPot(x, y) {
+        var pot = this.pots.create(x, y, 'pot');
+        this.physics.arcade.enableBody(pot);
+        pot.body.allowGravity = false;
+        pot.body.immovable = true;
+
+        return pot;
     }
 }
