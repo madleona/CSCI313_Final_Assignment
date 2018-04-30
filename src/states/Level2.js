@@ -20,7 +20,7 @@ export default class Level2 extends Phaser.State {
         //create the player again
         //this.player = new Player(this.game, 0, 0, Level1.getPlayerHealth());
         this.projectiles = this.add.group();
-        this.player = new Player(this.game, 193, 650, this.projectiles);
+        this.player = new Player(this.game, 225, 650, this.projectiles);
         this.game.add.existing(this.player);
 
         this.health = new HealthBar(this.game, 200, 10, this.game.lives);
