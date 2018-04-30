@@ -130,7 +130,7 @@ export default class Player extends Phaser.Sprite {
                 projectile.checkWorldBounds = true;
             }
 
-            projectile.direction = this.direction;
+            projectile.direction = this.lastFireDirection;
             projectile.body.velocity.y = yVelocity;
             projectile.body.velocity.x = xVelocity;
         }
