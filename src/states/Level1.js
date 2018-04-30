@@ -85,6 +85,8 @@ export default class Level1 extends Phaser.State {
         this.spawnPot(0, 255);
         this.spawnPot(30, 255);
 
+        this.hearts = this.add.group();
+
         var music = this.game.add.audio('level_1_music');
         music.play();
         music.loopFull();
@@ -150,6 +152,8 @@ export default class Level1 extends Phaser.State {
         this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.pots, null, null, this);
 
+        this.physics.arcade.overlap(this.player, this.hearts, this.addLife, null, this);
+
         //this.physics.arcade.overlap(this.enemies, this.bullets, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets2, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets3, this.damageEnemy, null, this);
@@ -170,6 +174,12 @@ export default class Level1 extends Phaser.State {
     //    this.spawnChance *= 1.2;
     //}
 
+    addLife(player, heart) {
+        console.log('in addLife');
+        this.health.addLife();
+        heart.kill();
+    }
+
     damagePlayer(playerRef, enemyRef) {
         this.health.loseLife();
         console.log(this.health.livesLeft())
@@ -184,7 +194,16 @@ export default class Level1 extends Phaser.State {
     damageEnemy(enemy, projectile) {
         enemy.kill();
         projectile.kill();
+        var x = enemy.body.x;
+        var y = enemy.body.y;
         delete enemy.type; // Probs a better way of doing this
+
+        var dropsHeart = Phaser.Utils.chanceRoll(100);
+        if (dropsHeart) {
+            //var tree = this.trees.create(x, y, 'tree');
+            var heart = this.hearts.create(x, y, 'heart');
+            this.physics.arcade.enableBody(heart);
+        }
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {

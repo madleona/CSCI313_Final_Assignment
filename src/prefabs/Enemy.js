@@ -4,6 +4,7 @@ export default class Enemy extends Phaser.Sprite {
         // type should be rabbit, mushroom, etc.
         super(game, x, y, type, frame);
         this.type = type;
+        
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 

@@ -12,8 +12,6 @@ export default class HealthBar extends Phaser.Group {
 
         this.hearts = [null, null, null];
 
-
-
         for (var i = 0; i < this.game.lives; i++) {
             this.hearts[i] = this.game.add.image(this.x + 30 * i, this.y, this.fullHeart);
         }
@@ -35,11 +33,16 @@ export default class HealthBar extends Phaser.Group {
     }
 
     addLife() {
-
+        if (this.game.lives == 3) {
+            return;
+        } else {
+            this.hearts[this.lives] = this.game.add.image(this.x + (30 * this.lives), this.y, this.fullHeart);
+            this.game.lives += 1;
+            this.lives = this.game.lives;
+        }
     }
 
     livesLeft() {
         return this.lives;
     }
-
 }
