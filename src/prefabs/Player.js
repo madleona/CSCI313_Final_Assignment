@@ -26,7 +26,6 @@ export default class Player extends Phaser.Sprite {
     }
 
     update() {
-        var sound = this.game.add.audio('attack_sound');
         // write your prefab's specific update code here
         if (this.cursors.left.isDown) {
             this.body.velocity.x = -this.playerModel.max_speed;
@@ -69,7 +68,6 @@ export default class Player extends Phaser.Sprite {
         }
 
         if (this.attackButton.isDown) {
-            sound.play();
             this.attack();
             this.swingReset = false;
         }

@@ -33,6 +33,10 @@ export default class Preload {
         this.load.image('empty_heart', 'images/empty_heart.png');
         this.load.image('sparkle', 'images/sparkle.png');
 
+        this.load.image('tree', 'images/tree.png');
+        this.load.image('pot', 'images/pot.png');
+        this.load.image('fence', 'images/fence.png');
+
         this.load.audio('startscreen_music', 'music/magic_tales.mp3');
         this.load.audio('level_1_music', 'music/sunny_side_up_2.mp3');
         this.load.audio('level_2_music', 'music/the_herd_and_the_nest_system.ogg');
