@@ -1,4 +1,11 @@
 # CSCI313_Final_Assignment
-Repository for the final assignment in CSCI 313 Spring 2018 for Team 2, consisting of Madelyn Leonard and Chase Anderson.
 
-testtesttest
+Madelyn Leonard
+Chase Anderson
+Kaleb Burnham
+
+Repository for the final assignment in CSCI 313 Spring 2018.
+
+To run unit tests, please run testrunner.html in your preferred browser (we used Chrome).
+
+To run the game, please run index.html in your preferred browser (we used Chrome).
