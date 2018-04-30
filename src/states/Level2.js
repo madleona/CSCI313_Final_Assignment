@@ -42,6 +42,8 @@ export default class Level2 extends Phaser.State {
         this.spawnPot(270, 160);
         this.spawnPot(270, 190);
         this.spawnPot(70, 600);
+
+        this.hearts = this.add.group();
         
         var music = this.game.add.audio('level_2_music');
         music.play();
@@ -75,6 +77,14 @@ export default class Level2 extends Phaser.State {
         this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.pots, this.enemyBulletCollide, null, this);
         this.physics.arcade.collide(this.projectiles, this.pots, this.projectilePotCollide, null, this);
+
+        this.physics.arcade.overlap(this.player, this.hearts, this.addLife, null, this);
+    }
+
+    addLife(player, heart) {
+        console.log('in addLife');
+        this.health.addLife();
+        heart.kill();
     }
 
     damagePlayer(playerRef, enemyRef) {
@@ -90,7 +100,16 @@ export default class Level2 extends Phaser.State {
     damageEnemy(enemy, projectile) {
         enemy.kill();
         projectile.kill();
+        var x = enemy.body.x;
+        var y = enemy.body.y;
         delete enemy.type;
+
+        var dropsHeart = Phaser.Utils.chanceRoll(100);
+        if (dropsHeart) {
+            //var tree = this.trees.create(x, y, 'tree');
+            var heart = this.hearts.create(x, y, 'heart');
+            this.physics.arcade.enableBody(heart);
+        }
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
