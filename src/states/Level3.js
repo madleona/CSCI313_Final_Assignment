@@ -1,5 +1,6 @@
 import Player from "../prefabs/Player.js";
 import Enemy from "../prefabs/Enemy.js";
+import HealthBar from "../prefabs/HealthBar.js";
 
 export default class Level3 extends Phaser.State {
 
@@ -23,9 +24,13 @@ export default class Level3 extends Phaser.State {
         let enemy = new Enemy(this.game, 100, 100, 'dragon', this.enemyBullets);
         this.enemies.add(enemy);
 
+        this.health = new HealthBar(this.game, 200, 10, this.game.lives);
+
         var music = this.game.add.audio('level_3_music');
         music.play();
         music.loopFull();
+
+        
     }
 
     update() {

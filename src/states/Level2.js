@@ -1,6 +1,7 @@
 import Level1 from "../states/Level1.js";
 import Player from "../prefabs/Player.js";
 import Enemy from "../prefabs/Enemy.js";
+import HealthBar from "../prefabs/HealthBar.js";
 
 export default class Level2 extends Phaser.State {
 
@@ -21,6 +22,8 @@ export default class Level2 extends Phaser.State {
         this.projectiles = this.add.group();
         this.player = new Player(this.game, 193, 650, this.projectiles);
         this.game.add.existing(this.player);
+
+        this.health = new HealthBar(this.game, 200, 10, this.game.lives);
 
         var music = this.game.add.audio('level_2_music');
         music.play();
@@ -47,7 +50,12 @@ export default class Level2 extends Phaser.State {
     }
 
     damagePlayer(playerRef, enemyRef) {
-        this.player.damage(100);
+        this.health.loseLife();
+        console.log(this.health.livesLeft())
+        if (this.health.livesLeft() == 0) {
+            this.player.damage(100);
+        }
+        //this.player.damage(100);
         enemyRef.kill();
     }
 
