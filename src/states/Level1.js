@@ -68,6 +68,22 @@ export default class Level1 extends Phaser.State {
         //this.waveTimer.loop(20000, this.incrementWave, this);
         //this.waveTimer.start();
 
+        this.trees = this.add.group();
+        this.spawnTree(0, 0);
+        this.spawnTree(0, 75);
+        this.spawnTree(75, 0);
+        this.spawnTree(120, 140);
+        this.spawnTree(55, 585);
+        this.spawnTree(225, 275);
+
+        this.fences = this.add.group();
+        this.spawnFence(0, 285);
+        this.spawnFence(50, 285);
+
+        this.pots = this.add.group();
+        this.spawnPot(0, 255);
+        this.spawnPot(30, 255);
+
         var music = this.game.add.audio('level_1_music');
         music.play();
         music.loopFull();
@@ -121,6 +137,18 @@ export default class Level1 extends Phaser.State {
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
 
+        this.physics.arcade.collide(this.player, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.trees, null, null, this);
+
+        this.physics.arcade.collide(this.player, this.fences, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.fences, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.fences, null, null, this);
+
+        this.physics.arcade.collide(this.player, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.pots, null, null, this);
+
         //this.physics.arcade.overlap(this.enemies, this.bullets, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets2, this.damageEnemy, null, this);
         //this.physics.arcade.overlap(this.enemies, this.bullets3, this.damageEnemy, null, this);
@@ -170,6 +198,32 @@ export default class Level1 extends Phaser.State {
         return this.player.playerModel.health;
     }
 
+    spawnTree(x, y) {
+        var tree = this.trees.create(x, y, 'tree');
+        this.physics.arcade.enableBody(tree);
+        tree.body.allowGravity = false;
+        tree.body.immovable = true;
+
+        return tree;
+    }
+
+    spawnFence(x, y) {
+        var fence = this.fences.create(x, y, 'fence');
+        this.physics.arcade.enableBody(fence);
+        fence.body.allowGravity = false;
+        fence.body.immovable = true;
+
+        return fence;
+    }
+
+    spawnPot(x, y) {
+        var pot = this.pots.create(x, y, 'pot');
+        this.physics.arcade.enableBody(pot);
+        pot.body.allowGravity = false;
+        pot.body.immovable = true;
+
+        return pot;
+    }
     
     //damagePlayer(playerRef, enemyRef) {
     //    this.player.damage(1);
