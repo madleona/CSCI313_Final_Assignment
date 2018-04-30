@@ -21,12 +21,23 @@ export default class Enemy extends Phaser.Sprite {
         // handle what happens when an enemy hits the edge of the map
         this.body.collideWorldBounds = true;
         this.body.onWorldBounds = new Phaser.Signal();
-        this.body.onWorldBounds.add(this.hitWorldBounds, this)
+        this.body.onWorldBounds.add(this.changeDirection, this)
 
         this.body.bounce.set(1);
 
         this.currentVelocity = this.body.velocity.x;
 
+    }
+
+    changeDirection() {
+        this.scale.x *= -1;
+        // The axis it flips over isn't in the middle of the enemy, so
+        // it's necessary to offset that change in position. Google results
+        // second this method. - Kaleb
+        // P.S. this feels like a Phaser bug, but depending on the direction
+        // an enemy is moving, its width could be negative ¯\_(?)_/¯
+        // So, only one line will fix the offset issue.
+        this.body.x -= this.width;
     }
 
     fire() {

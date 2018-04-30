@@ -14,8 +14,16 @@ export default class Level2 extends Phaser.State {
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
-        let enemy = new Enemy(this.game, 100, 100, 'mushroom', this.enemyBullets);
-        this.enemies.add(enemy);
+        let enemy1 = new Enemy(this.game, 120, 100, 'mushroom', this.enemyBullets);
+        let enemy2 = new Enemy(this.game, 70, 100, 'mushroom', this.enemyBullets);
+        let enemy3 = new Enemy(this.game, 20, 100, 'mushroom', this.enemyBullets);
+        let enemy4 = new Enemy(this.game, 160, 450, 'mushroom', this.enemyBullets);
+        let enemy5 = new Enemy(this.game, 250, 300, 'mushroom', this.enemyBullets);
+        this.enemies.add(enemy1);
+        this.enemies.add(enemy2);
+        this.enemies.add(enemy3);
+        this.enemies.add(enemy4);
+        this.enemies.add(enemy5);
 
         //create the player again
         //this.player = new Player(this.game, 0, 0, Level1.getPlayerHealth());
@@ -116,6 +124,10 @@ export default class Level2 extends Phaser.State {
         if (enemyBullet.body.velocity.y > 0)
             enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
         projectile.kill();
+    }
+
+    enemyCollide(enemy, sprite) {
+        enemy.changeDirection();
     }
 
     enemyBulletCollide(enemyBullet, obstacle) {

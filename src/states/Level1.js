@@ -46,8 +46,12 @@ export default class Level1 extends Phaser.State {
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
-        let enemy = new Enemy(this.game, 100, 100, 'rabbit', this.enemyBullets);
-        this.enemies.add(enemy);
+        let enemy1 = new Enemy(this.game, 100, 100, 'rabbit', this.enemyBullets);
+        let enemy2 = new Enemy(this.game, 100, 300, 'rabbit', this.enemyBullets);
+        let enemy3 = new Enemy(this.game, 1, 450, 'rabbit', this.enemyBullets);
+        this.enemies.add(enemy1);
+        this.enemies.add(enemy2);
+        this.enemies.add(enemy3);
 
         this.game.lives = 3; // patch for when restarting the game and game.lives != 3;
         this.health = new HealthBar(this.game, 200, 10, this.game.lives);
@@ -141,17 +145,17 @@ export default class Level1 extends Phaser.State {
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
 
         this.physics.arcade.collide(this.player, this.trees, null, null, this);
-        this.physics.arcade.collide(this.enemies, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.trees, this.enemyCollide, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.trees, this.enemyBulletCollide, null, this);
         this.physics.arcade.collide(this.projectiles, this.trees, this.projectileCollide, null, this);
 
         this.physics.arcade.collide(this.player, this.fences, null, null, this);
-        this.physics.arcade.collide(this.enemies, this.fences, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.fences, this.enemyCollide, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.fences, this.enemyBulletCollide, null, this);
         this.physics.arcade.collide(this.projectiles, this.fences, this.projectileCollide, null, this);
 
         this.physics.arcade.collide(this.player, this.pots, null, null, this);
-        this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemies, this.pots, this.enemyCollide, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.pots, this.enemyBulletCollide, null, this);
         this.physics.arcade.collide(this.projectiles, this.pots, this.projectilePotCollide, null, this);
 
@@ -234,6 +238,10 @@ export default class Level1 extends Phaser.State {
 
     enemyBulletCollide(enemyBullet, obstacle) {
         enemyBullet.kill();
+    }
+
+    enemyCollide(enemy, sprite) {
+        enemy.changeDirection();
     }
 
     projectileCollide(projectile, obstacle) {
