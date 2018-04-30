@@ -54,6 +54,7 @@ export default class Level2 extends Phaser.State {
     damageEnemy(enemy, projectile) {
         enemy.kill();
         projectile.kill();
+        delete enemy.type;
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {
