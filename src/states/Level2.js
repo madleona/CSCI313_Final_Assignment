@@ -68,11 +68,13 @@ export default class Level2 extends Phaser.State {
 
         this.physics.arcade.collide(this.player, this.trees, null, null, this);
         this.physics.arcade.collide(this.enemies, this.trees, null, null, this);
-        this.physics.arcade.collide(this.enemyBullets, this.trees, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.trees, this.enemyBulletCollide, null, this);
+        this.physics.arcade.collide(this.projectiles, this.trees, this.projectileCollide, null, this);
 
         this.physics.arcade.collide(this.player, this.pots, null, null, this);
         this.physics.arcade.collide(this.enemies, this.pots, null, null, this);
-        this.physics.arcade.collide(this.enemyBullets, this.pots, null, null, this);
+        this.physics.arcade.collide(this.enemyBullets, this.pots, this.enemyBulletCollide, null, this);
+        this.physics.arcade.collide(this.projectiles, this.pots, this.projectilePotCollide, null, this);
     }
 
     damagePlayer(playerRef, enemyRef) {
@@ -96,6 +98,21 @@ export default class Level2 extends Phaser.State {
             enemyBullet.body.velocity.y = -enemyBullet.body.velocity.y;
         projectile.kill();
     }
+
+    enemyBulletCollide(enemyBullet, obstacle) {
+        enemyBullet.kill();
+    }
+
+    projectileCollide(projectile, obstacle) {
+        projectile.kill();
+    }
+
+    projectilePotCollide(projectile, pot) {
+        projectile.kill();
+
+        //break pot
+    }
+
 
     getPlayerHealth() {
         return this.player.playerModel.health;
