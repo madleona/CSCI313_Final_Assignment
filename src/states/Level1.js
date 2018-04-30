@@ -48,7 +48,9 @@ export default class Level1 extends Phaser.State {
         let enemy = new Enemy(this.game, 100, 100, 'rabbit', this.enemyBullets);
         this.enemies.add(enemy);
 
-        this.health = new HealthBar(this.game, 200, 10);
+        this.game.lives = 3; // patch for when restarting the game and game.lives != 3;
+        this.health = new HealthBar(this.game, 200, 10, this.game.lives);
+    
 
         ////add the group for the powerups
         //this.powerups = this.add.group();
@@ -153,6 +155,7 @@ export default class Level1 extends Phaser.State {
     damageEnemy(enemy, projectile) {
         enemy.kill();
         projectile.kill();
+        delete enemy.type; // Probs a better way of doing this
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {

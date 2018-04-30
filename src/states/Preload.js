@@ -45,6 +45,7 @@ export default class Preload {
         this.load.audio('bad_ending_music', 'music/lose_music.wav');
         this.load.audio('attack_sound', 'music/magic_chime_2.mp3');
         this.load.audio('bottle_sound', 'music/bottle_break.wav');
+
     }
 
     create() {

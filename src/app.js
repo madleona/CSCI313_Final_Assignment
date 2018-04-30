@@ -10,6 +10,7 @@ import StartScreen from "./states/StartScreen.js";
 import GameOverHappy from "./states/GameOverHappy.js";
 import GameOverSad from "./states/GameOverSad.js";
 
+import HealthBar from "./prefabs/HealthBar.js";
 
 window.onload = function () {
     // Game dimension was 1024x768. Changed so the map artwork fit.
@@ -24,4 +25,8 @@ window.onload = function () {
     game.state.add('gameOverHappy', GameOverHappy);
     game.state.add('gameOverSad', GameOverSad);
     game.state.start('boot');
+
+    // global variables
+    game.lives = 3;
 };
+
