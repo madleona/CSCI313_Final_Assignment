@@ -216,20 +216,23 @@ export default class Level1 extends Phaser.State {
     }
 
     damageEnemy(enemy, projectile) {
-        enemy.kill();
+        
         projectile.kill();
         var x = enemy.body.x;
         var y = enemy.body.y;
-        delete enemy.type; // Probs a better way of doing this
-
-        var dropsHeart = Phaser.Utils.chanceRoll(100);
-        if (dropsHeart) {
-            //var tree = this.trees.create(x, y, 'tree');
-            var heart = this.hearts.create(x, y, 'heart');
-            this.physics.arcade.enableBody(heart);
-        }
-
+        
+        enemy.lives -= 1;
+        if (enemy.lives == 0) {
+            delete enemy.type; // Probs a better way of doing this
+            enemy.kill();
+            var dropsHeart = Phaser.Utils.chanceRoll(100);
+            if (dropsHeart) {
+                //var tree = this.trees.create(x, y, 'tree');
+                var heart = this.hearts.create(x, y, 'heart');
+                this.physics.arcade.enableBody(heart);
+            }
         this.numEnemies--;
+        }
     }
 
     deflectEnemyBullets(enemyBullet, projectile) {

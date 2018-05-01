@@ -27,6 +27,15 @@ export default class Enemy extends Phaser.Sprite {
 
         this.currentVelocity = this.body.velocity.x;
 
+        this.lives = 0;
+        if (type == 'rabbit') {
+            this.lives = 1;
+        } else if (type == 'mushroom') {
+            this.lives = 2;
+        } else if (type == 'dragon') {
+            this.lives = 3;
+        }
+
     }
 
     changeDirection() {
