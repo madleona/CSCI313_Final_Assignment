@@ -108,8 +108,6 @@ export default class Level1 extends Phaser.State {
     //}
 
     update() {
-        console.log("this.numEnemies: " + this.numEnemies);
-
         //useful to tell the position of the player
         //console.log("Player (x,y) : " + "(" + this.player.x + "," + this.player.y + ")");
         //if the player is at the top of the level and within a certain x interval
@@ -144,6 +142,7 @@ export default class Level1 extends Phaser.State {
         //}
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
+        this.physics.arcade.overlap(this.enemies, this.enemyBullets, this.damageEnemyFromBullet, null, this);
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayerEnemy, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
@@ -162,6 +161,8 @@ export default class Level1 extends Phaser.State {
         this.physics.arcade.collide(this.enemies, this.pots, this.enemyCollide, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.pots, this.enemyBulletCollide, null, this);
         this.physics.arcade.collide(this.projectiles, this.pots, this.projectilePotCollide, null, this);
+
+        
 
         this.physics.arcade.overlap(this.player, this.hearts, this.addLife, null, this);
 
@@ -256,7 +257,16 @@ export default class Level1 extends Phaser.State {
             default: { break; }
         }
 
+        console.log("enemyBullet.reflected: (false):" + enemyBullet.reflected);
+        enemyBullet.reflected = true;
+        console.log("enemyBullet.reflected: (true):" + enemyBullet.reflected);
+
         projectile.kill();
+    }
+
+    damageEnemyFromBullet(enemy, bullet) {
+        if (bullet.reflected)
+            this.damageEnemy(enemy, bullet);
     }
 
     enemyBulletCollide(enemyBullet, obstacle) {

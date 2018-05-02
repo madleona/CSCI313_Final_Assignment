@@ -51,6 +51,7 @@ export default class Enemy extends Phaser.Sprite {
 
     fire() {
         let bullet;
+
         if (this.type == 'dragon') {
             bullet = this.bulletLayer.create(this.x + 100, this.y, 'fireball');
         } else {
@@ -58,6 +59,7 @@ export default class Enemy extends Phaser.Sprite {
         }
         
         this.game.physics.enable(bullet, Phaser.Physics.ARCADE);
+        bullet.reflected = false;
         bullet.outOfBoundsKill = true;
         bullet.checkWorldBounds = true;
         bullet.body.velocity.x = this.game.rnd.integerInRange(-100, 100);
