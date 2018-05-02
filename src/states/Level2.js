@@ -35,7 +35,7 @@ export default class Level2 extends Phaser.State {
         this.health = new HealthBar(this.game, 200, 10, this.game.lives);
 
         this.trees = this.add.group();
-        this.spawnTree(120, 15);
+        this.spawnTree(120, 0);
         this.spawnTree(155, 130);
         this.spawnTree(155, 205);
         this.spawnTree(230, 215);
@@ -43,7 +43,7 @@ export default class Level2 extends Phaser.State {
         this.spawnTree(75, 360);
         this.spawnTree(150, 370);
         this.spawnTree(65, 525);
-        this.spawnTree(135, 615);
+        this.spawnTree(135, 645);
         this.spawnTree(215, 500);
 
         this.pots = this.add.group();

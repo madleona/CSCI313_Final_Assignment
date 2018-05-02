@@ -34,7 +34,7 @@ export default class Level1 extends Phaser.State {
         this.spawnTree(0, 75);
         this.spawnTree(75, 0);
         this.spawnTree(120, 140);
-        this.spawnTree(55, 575);
+        this.spawnTree(55, 565);
         this.spawnTree(225, 275);
 
         this.fences = this.add.group();
@@ -62,6 +62,16 @@ export default class Level1 extends Phaser.State {
         if (this.player.y < 17 && (180 <= this.player.x && this.player.x <= 200) && this.numEnemies == 0) {
             this.game.sound.stopAll();
             this.game.state.start('level2')
+        }
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.TWO)) {
+            this.game.sound.stopAll();
+            this.game.state.start('level2');
+        }
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.THREE)) {
+            this.game.sound.stopAll();
+            this.game.state.start('level3'); 
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
