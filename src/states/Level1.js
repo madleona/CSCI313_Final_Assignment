@@ -10,40 +10,12 @@ export default class Level1 extends Phaser.State {
     
     create() {
         this.bg = this.add.tileSprite(0, 0, 300, 700, 'level1');
-        
-        //this.spawnChancePowerup = .2;
-        //this.spawnChance = .02;
-        //this.score = 0;
 
-        //task We will need this comment here, to enable Phaser Physics, but since we don't have any code using it yet I'm leaving it commented for now 
-        //this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
-        //this.bg = this.add.tileSprite(0, 0, 1024, 768, 'bg');
-
-        
-        //this.bullets = this.add.group();
-        //this.bullets2 = this.add.group();
-        //this.bullets3 = this.add.group();
-        //this.bullets4 = this.add.group();
-        //this.enemyBullets = this.add.group();
-
-        ////add player
-        //this.player = new Player(this.game, 0, 0, this.bullets, this.bullets2, this.bullets3, this.bullets4);
-        //this.game.add.existing(this.player);
-
-        //add player
         this.projectiles = this.add.group();
         this.player = new Player(this.game, 126, 650, this.projectiles);
         this.game.add.existing(this.player);
         this.lastDirection = "";
-
-        ////add a few enemeis..
-        //this.enemies = this.add.group();
-        //for (let i = 0; i < 5; i++) {
-        //    let enemy = new Enemy(this.game, this.game.width + 100 + (Math.random() * 400), Math.random() * this.game.height, this.enemyBullets);
-        //    this.enemies.add(enemy);
-        //}
-
+        
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
         let enemy1 = new Enemy(this.game, 100, 100, 'rabbit', this.enemyBullets);
@@ -56,30 +28,13 @@ export default class Level1 extends Phaser.State {
 
         this.game.lives = 3; // patch for when restarting the game and game.lives != 3;
         this.health = new HealthBar(this.game, 200, 10, this.game.lives);
-    
-
-        ////add the group for the powerups
-        //this.powerups = this.add.group();
-
-        ////add the explosions
-        //this.explosions = this.game.add.emitter(0, 0, 200);
-        //this.explosions.makeParticles("hexagon");
-        //this.explosions.setAlpha(1, .2, 2000);
-
-        ////add UI
-        //this.setupUI();
-
-        ////wave timer
-        //this.waveTimer = this.game.time.create(false);
-        //this.waveTimer.loop(20000, this.incrementWave, this);
-        //this.waveTimer.start();
-
+        
         this.trees = this.add.group();
         this.spawnTree(0, 0);
         this.spawnTree(0, 75);
         this.spawnTree(75, 0);
         this.spawnTree(120, 140);
-        this.spawnTree(55, 585);
+        this.spawnTree(55, 575);
         this.spawnTree(225, 275);
 
         this.fences = this.add.group();
@@ -97,16 +52,6 @@ export default class Level1 extends Phaser.State {
         music.loopFull();
     }
 
-    //setupUI() {
-    //    this.UILayer = this.add.group();
-
-    //    this.scoreField = new NumberBox(this.game, "circle", 0);
-    //    this.UILayer.add(this.scoreField);
-
-    //    this.healthBar = new HealthBar(this.game, 120, 40, "health_bar", "health_holder");
-    //    this.UILayer.add(this.healthBar);
-    //}
-
     update() {
         console.log("this.numEnemies: " + this.numEnemies);
 
@@ -118,30 +63,6 @@ export default class Level1 extends Phaser.State {
             this.game.sound.stopAll();
             this.game.state.start('level2')
         }
-        
-
-        //this.bg.tilePosition.x -= .5;
-
-        //if (Math.random() < this.spawnChance) {
-        //    let enemy = new Enemy(this.game, this.game.width + 100 + (Math.random() * 400), Math.random() * this.game.height, this.enemyBullets);
-        //    this.enemies.add(enemy);
-        //}
-
-        //if (Math.random() < 0 /*this.spawnChancePowerup*/) {
-        //    let powerupstring = '';
-        //    let poweruptype = this.getRandomInt(0,2);
-
-        //    switch (poweruptype) {
-        //        case 0: powerupstring = 'healthbox'; break;
-
-        //        case 1: powerupstring = 'speed'; break;
- 
-        //        case 2: powerupstring = 'bullets'; break;
-        //    }
-
-        //    let powerup = new Powerups(this.game, this.game.width + 100 + (Math.random() * 400), Math.random() * this.game.height, 0, powerupstring)
-        //    this.powerups.add(powerup);
-        //}
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayerEnemy, null, this);
@@ -165,14 +86,6 @@ export default class Level1 extends Phaser.State {
 
         this.physics.arcade.overlap(this.player, this.hearts, this.addLife, null, this);
 
-        //this.physics.arcade.overlap(this.enemies, this.bullets, this.damageEnemy, null, this);
-        //this.physics.arcade.overlap(this.enemies, this.bullets2, this.damageEnemy, null, this);
-        //this.physics.arcade.overlap(this.enemies, this.bullets3, this.damageEnemy, null, this);
-        //this.physics.arcade.overlap(this.enemies, this.bullets4, this.damageEnemy, null, this);
-        //this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
-        //this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
-        //this.physics.arcade.overlap(this.player, this.powerups, this.obtainPowerup, null, this)
-
         //console.log('health: ' + this.player.playerModel.health);
 
         if (this.player.playerModel.health <= 0) {
@@ -180,10 +93,6 @@ export default class Level1 extends Phaser.State {
             this.game.state.start('gameOverSad')
         }
     }
-
-    //incrementWave() {
-    //    this.spawnChance *= 1.2;
-    //}
 
     addLife(player, heart) {
         console.log('in addLife');
@@ -307,52 +216,4 @@ export default class Level1 extends Phaser.State {
 
         return pot;
     }
-    
-    //damagePlayer(playerRef, enemyRef) {
-    //    this.player.damage(1);
-    //    this.healthBar.setValue(this.player.playerModel.health / this.player.playerModel.max_health);
-    //    enemyRef.kill();
-
-    //    if (this.player.playerModel.health <= 0) {
-    //        this.game.state.start('gameOver');
-    //    }
-    //}
-
-    //damageEnemy(enemy, bullet) {
-
-    //    this.explosions.x = enemy.x;
-    //    this.explosions.y = enemy.y;
-
-    //    this.explosions.explode(2000, 4);
-
-    //    enemy.kill();
-    //    bullet.kill();
-
-    //    this.score++;
-    //    this.scoreField.setValue(this.score);
-    //}
-
-    //obtainPowerup(playerRef, powerup)
-    //{
-    //    if (powerup.type === 'healthbox') {
-    //        this.player.heal(100);
-    //        this.healthBar.setValue(this.player.playerModel.health / this.player.playerModel.max_health);
-    //    }
-    //    else if (powerup.type === 'speed') {
-    //        this.player.playerModel.max_speed += 100;
-    //    }
-    //    else if (powerup.type === 'bullets') {
-    //        this.player.playerModel.gun.addBullets(10);
-    //    }
-    //    else {
-
-    //    }
-
-    //    powerup.kill();
-    //}
-
-    
-    //getRandomInt(min, max) {
-    //    return Math.floor(Math.random() * (max - min + 1)) + min;
-    //}
 }
