@@ -64,16 +64,6 @@ export default class Level1 extends Phaser.State {
             this.game.state.start('level2')
         }
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.TWO)) {
-            this.game.sound.stopAll();
-            this.game.state.start('level2');
-        }
-
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.THREE)) {
-            this.game.sound.stopAll();
-            this.game.state.start('level3'); 
-        }
-
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayerEnemy, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
