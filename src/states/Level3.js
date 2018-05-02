@@ -21,7 +21,7 @@ export default class Level3 extends Phaser.State {
 
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
-        let enemy = new Enemy(this.game, 100, 100, 'dragon', this.enemyBullets);
+        let enemy = new Enemy(this.game, 70, 10, 'dragon', this.enemyBullets);
         this.enemies.add(enemy);
 
         this.health = new HealthBar(this.game, 200, 10, this.game.lives);
@@ -54,6 +54,7 @@ export default class Level3 extends Phaser.State {
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
+        this.physics.arcade.overlap(this.enemies, this.enemyBullets, this.damageEnemyFromBullet, null, this);
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayer, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
@@ -95,14 +96,9 @@ export default class Level3 extends Phaser.State {
             delete enemy.type; // Probs a better way of doing this
             enemy.kill();
 
-            var dropsHeart = Phaser.Utils.chanceRoll(100);
-            if (dropsHeart) {
-                //var tree = this.trees.create(x, y, 'tree');
-                var heart = this.hearts.create(x, y, 'heart');
-                this.physics.arcade.enableBody(heart);
-            }
-
             this.numEnemies--;
+
+            this.game.state.start('gameOverHappy');
         }
     }
 
@@ -127,7 +123,13 @@ export default class Level3 extends Phaser.State {
             default: { break; }
         }
 
+        enemyBullet.reflected = true;
         projectile.kill();
+    }
+
+    damageEnemyFromBullet(enemy, bullet) {
+        if (bullet.reflected)
+            this.damageEnemy(enemy, bullet);
     }
 
     enemyBulletCollide(enemyBullet, obstacle) {

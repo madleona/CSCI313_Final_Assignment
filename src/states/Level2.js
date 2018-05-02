@@ -75,6 +75,7 @@ export default class Level2 extends Phaser.State {
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
+        this.physics.arcade.overlap(this.enemies, this.enemyBullets, this.damageEnemyFromBullet, null, this);
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayerEnemy, null, this);
         this.physics.arcade.overlap(this.enemies, this.projectiles, this.damageEnemy, null, this);
         this.physics.arcade.overlap(this.enemyBullets, this.projectiles, this.deflectEnemyBullets, null, this);
@@ -165,7 +166,13 @@ export default class Level2 extends Phaser.State {
             default: { break; }
         }
 
+        enemyBullet.reflected = true;
         projectile.kill();
+    }
+
+    damageEnemyFromBullet(enemy, bullet) {
+        if (bullet.reflected)
+            this.damageEnemy(enemy, bullet);
     }
 
     enemyCollide(enemy, sprite) {
