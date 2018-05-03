@@ -1,6 +1,6 @@
-import PlayerModel from "../src/models/PlayerModel_EXAMPLE.js";
+import PlayerModel from "../src/models/PlayerModel.js";
 
-describe("Player Model FOR EXAMPLE ONLY", function () {
+describe("Player Model", function () {
     let assert = chai.assert;
     let expect = chai.expect;
 
@@ -9,30 +9,24 @@ describe("Player Model FOR EXAMPLE ONLY", function () {
         assert.isOk(true);
     });
 
-    it('Can be created with a specified starting health and maximum health', function () {
-        let model = new PlayerModel(50, 200);
-        assert.equal(model.health, 50);
-        assert.equal(model.max_health, 200);
-    });
-
     it("Starts out with a max speed of 200", function () {
         let model = new PlayerModel();
         assert.equal(model.max_speed, 200);
     });
 
-    it('can change max speed', function () {
+    it('Can change max speed', function () {
         let model = new PlayerModel();
         model.change_max_speed(500);
         assert.equal(model.max_speed, 500);
     });
 
-    it('can not set a negative max speed', function () {
+    it('Can not set a negative max speed', function () {
         let model = new PlayerModel();
         model.change_max_speed(-5);
         assert.equal(model.max_speed, 0);
     });
 
-    it('throws an error if you choose a non-number for speed', function () {
+    it('Throws an error if you choose a non-number for speed', function () {
         let model = new PlayerModel();
         expect(model.change_max_speed.bind(model, "a")).to.throw('Speed in PlayerModel.change_speed must be a number.');
     });
@@ -64,27 +58,34 @@ describe("Player Model FOR EXAMPLE ONLY", function () {
         expect(model.damage.bind(model, -1)).to.throw('Negative damage not allowed in PlayerModel.');
     });
 
-    it('can be healed by a specified amount when there is room to heal', function () {
-        let model = new PlayerModel(50, 100);
-        model.heal(10);
-        assert.equal(model.health, 60);
-    });
+    //! Below is the code from the previous PlayerModel class. You might be able to reuse some of the tests. 
+    //! Delete the comments when you're done. 
 
-    it('when healing more than the maximum amount of health, it simply fills to the maximum level', function () {
-        let model = new PlayerModel(95, 100);
-        model.heal(10);
-        assert.equal(model.health, 100);
-    });
+//    it('can be healed by a specified amount when there is room to heal', function () {
+//        let model = new PlayerModel(50, 100);
+//        model.heal(10);
+//        assert.equal(model.health, 60);
+//    });
 
-    it('can not heal a negative amount', function () {
-        let model = new PlayerModel();
-        expect(model.heal.bind(model, -1)).to.throw('Negative heal not allowed in PlayerModel.');
-    });
+//    it('when healing more than the maximum amount of health, it simply fills to the maximum level', function () {
+//        let model = new PlayerModel(95, 100);
+//        model.heal(10);
+//        assert.equal(model.health, 100);
+//    });
 
-    it('starts with a default gun model', function () {
-        let model = new PlayerModel();
-        assert.equal(model.gun.constructor.name, 'GunModel');
-    });
+//    it('can not heal a negative amount', function () {
+//        let model = new PlayerModel();
+//        expect(model.heal.bind(model, -1)).to.throw('Negative heal not allowed in PlayerModel.');
+//    });
 
+//    it('starts with a default gun model', function () {
+//        let model = new PlayerModel();
+//        assert.equal(model.gun.constructor.name, 'GunModel');
+//    });
 
+//    it('Can be created with a specified starting health and maximum health', function () {
+//        let model = new PlayerModel(50, 200);
+//        assert.equal(model.health, 50);
+//        assert.equal(model.max_health, 200);
+//    });
 });
