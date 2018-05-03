@@ -50,6 +50,7 @@ export default class Level1 extends Phaser.State {
         var music = this.game.add.audio('level_1_music');
         music.play();
         music.loopFull();
+        this.breakingPot = this.game.add.audio('bottle_sound');
     }
 
     update() {
@@ -60,6 +61,16 @@ export default class Level1 extends Phaser.State {
         if (this.player.y < 17 && (180 <= this.player.x && this.player.x <= 200) && this.numEnemies == 0) {
             this.game.sound.stopAll();
             this.game.state.start('level2')
+        }
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.TWO)) {
+            this.game.sound.stopAll();
+            this.game.state.start('level2');
+        }
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.THREE)) {
+            this.game.sound.stopAll();
+            this.game.state.start('level3');
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
@@ -82,9 +93,7 @@ export default class Level1 extends Phaser.State {
         this.physics.arcade.collide(this.enemies, this.pots, this.enemyCollide, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.pots, this.enemyBulletCollide, null, this);
         this.physics.arcade.collide(this.projectiles, this.pots, this.projectilePotCollide, null, this);
-
         
-
         this.physics.arcade.overlap(this.player, this.hearts, this.addLife, null, this);
 
         //console.log('health: ' + this.player.playerModel.health);
@@ -103,7 +112,7 @@ export default class Level1 extends Phaser.State {
 
     damagePlayer(playerRef, enemyRef) {
         this.health.loseLife();
-        console.log(this.health.livesLeft())
+        //console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
@@ -191,9 +200,15 @@ export default class Level1 extends Phaser.State {
     }
 
     projectilePotCollide(projectile, pot) {
-        projectile.kill();
+        var x = pot.body.x;
+        var y = pot.body.y;
 
-        //break pot
+        projectile.kill();
+        pot.kill();
+        this.breakingPot.play();
+
+        var heart = this.hearts.create(x, y, 'heart');
+        this.physics.arcade.enableBody(heart);
     }
 
     getPlayerHealth() {

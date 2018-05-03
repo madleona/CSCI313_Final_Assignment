@@ -37,6 +37,7 @@ export default class Level3 extends Phaser.State {
         var music = this.game.add.audio('level_3_music');
         music.play();
         music.loopFull();
+        this.breakingPot = this.game.add.audio('bottle_sound');
     }
 
     update() {
@@ -45,12 +46,6 @@ export default class Level3 extends Phaser.State {
         if (this.player.playerModel.health <= 0) {
             this.game.sound.stopAll();
             this.game.state.start('gameOverSad')
-        }
-
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.H)) {
-            console.log('Leaving Level3.js to GameOverHappy.js');
-            this.game.sound.stopAll();
-            this.game.state.start('gameOverHappy');
         }
 
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
@@ -97,7 +92,7 @@ export default class Level3 extends Phaser.State {
             enemy.kill();
 
             this.numEnemies--;
-
+            this.game.sound.stopAll();
             this.game.state.start('gameOverHappy');
         }
     }
@@ -145,9 +140,15 @@ export default class Level3 extends Phaser.State {
     }
 
     projectilePotCollide(projectile, pot) {
-        projectile.kill();
+        var x = pot.body.x;
+        var y = pot.body.y;
 
-        //break pot
+        projectile.kill();
+        pot.kill();
+        this.breakingPot.play();
+
+        var heart = this.hearts.create(x, y, 'heart');
+        this.physics.arcade.enableBody(heart);
     }
 
     getPlayerHealth() {

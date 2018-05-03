@@ -57,11 +57,10 @@ export default class Level2 extends Phaser.State {
         var music = this.game.add.audio('level_2_music');
         music.play();
         music.loopFull();
+        this.breakingPot = this.game.add.audio('bottle_sound');
     }
 
     update() {
-        console.log("this.numEnemies: " + this.numEnemies);
-
         if (this.player.y < 17 && (20 <= this.player.x && this.player.x <= 65) && this.numEnemies == 0) {
             this.game.sound.stopAll();
             this.game.state.start('level3');
@@ -188,9 +187,15 @@ export default class Level2 extends Phaser.State {
     }
 
     projectilePotCollide(projectile, pot) {
-        projectile.kill();
+        var x = pot.body.x;
+        var y = pot.body.y;
 
-        //break pot
+        projectile.kill();
+        pot.kill();
+        this.breakingPot.play();
+
+        var heart = this.hearts.create(x, y, 'heart');
+        this.physics.arcade.enableBody(heart);
     }
 
 
