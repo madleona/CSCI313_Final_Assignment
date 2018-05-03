@@ -23,7 +23,7 @@ export default class Player extends Phaser.Sprite {
         this.lastFireDirection = "";
         this.direction = 'normal';
 
-        
+        this.attackSound = this.game.add.audio('attack_sound');
     }
 
     update() {
@@ -82,6 +82,8 @@ export default class Player extends Phaser.Sprite {
     {
         if (this.playerModel.sword.canBeSwung(this.swingReset))
         {
+            this.attackSound.play();
+
             var yVelocity = 0;
             var xVelocity = 0;
 

@@ -50,6 +50,7 @@ export default class Level1 extends Phaser.State {
         var music = this.game.add.audio('level_1_music');
         music.play();
         music.loopFull();
+        this.breakingPot = this.game.add.audio('bottle_sound');
     }
 
     update() {
@@ -82,12 +83,8 @@ export default class Level1 extends Phaser.State {
         this.physics.arcade.collide(this.enemies, this.pots, this.enemyCollide, null, this);
         this.physics.arcade.collide(this.enemyBullets, this.pots, this.enemyBulletCollide, null, this);
         this.physics.arcade.collide(this.projectiles, this.pots, this.projectilePotCollide, null, this);
-
         
-
         this.physics.arcade.overlap(this.player, this.hearts, this.addLife, null, this);
-
-        //console.log('health: ' + this.player.playerModel.health);
 
         if (this.player.playerModel.health <= 0) {
             this.game.sound.stopAll();
@@ -96,30 +93,23 @@ export default class Level1 extends Phaser.State {
     }
 
     addLife(player, heart) {
-        console.log('in addLife');
         this.health.addLife();
         heart.kill();
     }
 
     damagePlayer(playerRef, enemyRef) {
         this.health.loseLife();
-        console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-        //this.player.damage(100);
         enemyRef.kill();
-
-        //this.numEnemies--;
     }
 
     damagePlayerEnemy(playerRef, enemyRef) {
         this.health.loseLife();
-        console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-        //this.player.damage(100);
         enemyRef.kill();
 
         this.numEnemies--;
@@ -133,11 +123,10 @@ export default class Level1 extends Phaser.State {
         
         enemy.lives -= 1;
         if (enemy.lives == 0) {
-            delete enemy.type; // Probs a better way of doing this
+            delete enemy.type;
             enemy.kill();
             var dropsHeart = Phaser.Utils.chanceRoll(100);
             if (dropsHeart) {
-                //var tree = this.trees.create(x, y, 'tree');
                 var heart = this.hearts.create(x, y, 'heart');
                 this.physics.arcade.enableBody(heart);
             }
@@ -165,10 +154,8 @@ export default class Level1 extends Phaser.State {
                 break;
             default: { break; }
         }
-
-        console.log("enemyBullet.reflected: (false):" + enemyBullet.reflected);
+        
         enemyBullet.reflected = true;
-        console.log("enemyBullet.reflected: (true):" + enemyBullet.reflected);
 
         projectile.kill();
     }
@@ -191,9 +178,15 @@ export default class Level1 extends Phaser.State {
     }
 
     projectilePotCollide(projectile, pot) {
-        projectile.kill();
+        var x = pot.body.x;
+        var y = pot.body.y;
 
-        //break pot
+        projectile.kill();
+        pot.kill();
+        this.breakingPot.play();
+
+        var heart = this.hearts.create(x, y, 'heart');
+        this.physics.arcade.enableBody(heart);
     }
 
     getPlayerHealth() {
