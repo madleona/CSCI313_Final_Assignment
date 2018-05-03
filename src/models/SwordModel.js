@@ -3,7 +3,7 @@ export default class SwordModel
     constructor()
     {
         this.projectiles = 10;
-        this.lastSwing = Date.now() - 500; //So that we c swing the sword
+        this.lastSwing = Date.now() - 2000; //So that we c swing the sword
     }
 
     attack()
