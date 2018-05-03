@@ -5,12 +5,32 @@ export default class StartScreen {
     }
 
     create() {
-        console.log('In StartScreen.js');
-
         if (!this.musicIsPlaying) {
             this.playMusic();
         }
 
+        this.initializeText();
+    }
+
+    update() {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            this.game.sound.stopAll();
+            this.game.state.start('level1');
+        }
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.C)) {
+            this.game.state.start('credits')
+        }
+    }
+
+    playMusic() {
+        var music = this.game.add.audio('startscreen_music');
+        music.play();
+        music.loopFull();
+        this.musicIsPlaying = true;
+    }
+
+    initializeText() {
         var style = { font: "16px Comic Sans MS", fill: "#FFFFFF" };
         this.game.add.text(20, 20, "Once upon a time...", style);
         this.game.add.text(20, 50, "There lived a Prince and Princess", style);
@@ -29,23 +49,5 @@ export default class StartScreen {
         this.game.add.text(20, 390, "Press [C] to view the credits.", style);
 
         this.game.add.text(20, 430, "Press [SPACEBAR] to start playing!", style);
-    }
-
-    update() {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            this.game.sound.stopAll();
-            console.log('Leaving StartScreen.js')
-            this.game.state.start('level1');
-        }
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.C)) {
-            this.game.state.start('credits')
-        }
-    }
-
-    playMusic() {
-        var music = this.game.add.audio('startscreen_music');
-        music.play();
-        music.loopFull();
-        this.musicIsPlaying = true;
     }
 }

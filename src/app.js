@@ -13,7 +13,6 @@ import GameOverSad from "./states/GameOverSad.js";
 import HealthBar from "./prefabs/HealthBar.js";
 
 window.onload = function () {
-    // Game dimension was 1024x768. Changed so the map artwork fit.
     game = new Phaser.Game(300, 700, Phaser.AUTO, 'canvasContainer');
     game.state.add('boot', Boot);
     game.state.add('preload', Preload);

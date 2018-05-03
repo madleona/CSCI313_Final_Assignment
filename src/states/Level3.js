@@ -10,15 +10,11 @@ export default class Level3 extends Phaser.State {
 
     create() {
         this.bg = this.add.tileSprite(0, 0, 300, 700, 'level3');
-
-        //create the player again
-        //this.player = new Player(this.game, 0, 0, Level1.getPlayerHealth());
+        
         this.projectiles = this.add.group();
         this.player = new Player(this.game, 43, 650, this.projectiles);
         this.game.add.existing(this.player);
-
-        console.log("In Level3.js, press H to progress to GameOverHappy.js");
-
+        
         this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
         let enemy = new Enemy(this.game, 70, 10, 'dragon', this.enemyBullets);
@@ -63,18 +59,15 @@ export default class Level3 extends Phaser.State {
     }
 
     addLife(player, heart) {
-        console.log('in addLife');
         this.health.addLife();
         heart.kill();
     }
 
     damagePlayer(playerRef, enemyRef) {
         this.health.loseLife();
-        console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-        //this.player.damage(100);
         enemyRef.kill();
         this.numEnemies--;
     }
@@ -88,7 +81,7 @@ export default class Level3 extends Phaser.State {
 
         // enemy is dead
         if (enemy.lives == 0) {
-            delete enemy.type; // Probs a better way of doing this
+            delete enemy.type;
             enemy.kill();
 
             this.numEnemies--;

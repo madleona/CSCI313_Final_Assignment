@@ -63,16 +63,6 @@ export default class Level1 extends Phaser.State {
             this.game.state.start('level2')
         }
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.TWO)) {
-            this.game.sound.stopAll();
-            this.game.state.start('level2');
-        }
-
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.THREE)) {
-            this.game.sound.stopAll();
-            this.game.state.start('level3');
-        }
-
         this.physics.arcade.overlap(this.player, this.enemyBullets, this.damagePlayer, null, this);
         this.physics.arcade.overlap(this.enemies, this.enemyBullets, this.damageEnemyFromBullet, null, this);
         this.physics.arcade.overlap(this.player, this.enemies, this.damagePlayerEnemy, null, this);
@@ -96,8 +86,6 @@ export default class Level1 extends Phaser.State {
         
         this.physics.arcade.overlap(this.player, this.hearts, this.addLife, null, this);
 
-        //console.log('health: ' + this.player.playerModel.health);
-
         if (this.player.playerModel.health <= 0) {
             this.game.sound.stopAll();
             this.game.state.start('gameOverSad')
@@ -105,30 +93,23 @@ export default class Level1 extends Phaser.State {
     }
 
     addLife(player, heart) {
-        console.log('in addLife');
         this.health.addLife();
         heart.kill();
     }
 
     damagePlayer(playerRef, enemyRef) {
         this.health.loseLife();
-        //console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-        //this.player.damage(100);
         enemyRef.kill();
-
-        //this.numEnemies--;
     }
 
     damagePlayerEnemy(playerRef, enemyRef) {
         this.health.loseLife();
-        console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-        //this.player.damage(100);
         enemyRef.kill();
 
         this.numEnemies--;
@@ -142,11 +123,10 @@ export default class Level1 extends Phaser.State {
         
         enemy.lives -= 1;
         if (enemy.lives == 0) {
-            delete enemy.type; // Probs a better way of doing this
+            delete enemy.type;
             enemy.kill();
             var dropsHeart = Phaser.Utils.chanceRoll(100);
             if (dropsHeart) {
-                //var tree = this.trees.create(x, y, 'tree');
                 var heart = this.hearts.create(x, y, 'heart');
                 this.physics.arcade.enableBody(heart);
             }
@@ -174,10 +154,8 @@ export default class Level1 extends Phaser.State {
                 break;
             default: { break; }
         }
-
-        console.log("enemyBullet.reflected: (false):" + enemyBullet.reflected);
+        
         enemyBullet.reflected = true;
-        console.log("enemyBullet.reflected: (true):" + enemyBullet.reflected);
 
         projectile.kill();
     }

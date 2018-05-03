@@ -25,9 +25,7 @@ export default class Level2 extends Phaser.State {
         this.enemies.add(enemy4);
         this.enemies.add(enemy5);
         this.numEnemies = 5;
-
-        //create the player again
-        //this.player = new Player(this.game, 0, 0, Level1.getPlayerHealth());
+        
         this.projectiles = this.add.group();
         this.player = new Player(this.game, 225, 650, this.projectiles);
         this.game.add.existing(this.player);
@@ -93,30 +91,23 @@ export default class Level2 extends Phaser.State {
     }
 
     addLife(player, heart) {
-        console.log('in addLife');
         this.health.addLife();
         heart.kill();
     }
 
     damagePlayer(playerRef, enemyRef) {
         this.health.loseLife();
-        console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-        //this.player.damage(100);
         enemyRef.kill();
-
-        //this.numEnemies--;
     }
 
     damagePlayerEnemy(playerRef, enemyRef) {
         this.health.loseLife();
-        console.log(this.health.livesLeft())
         if (this.health.livesLeft() == 0) {
             this.player.damage(100);
         }
-        //this.player.damage(100);
         enemyRef.kill();
 
         this.numEnemies--;
@@ -130,12 +121,11 @@ export default class Level2 extends Phaser.State {
 
         enemy.lives -= 1;
         if (enemy.lives == 0) {
-            delete enemy.type; // Probs a better way of doing this
+            delete enemy.type;
             enemy.kill();
 
             var dropsHeart = Phaser.Utils.chanceRoll(100);
             if (dropsHeart) {
-                //var tree = this.trees.create(x, y, 'tree');
                 var heart = this.hearts.create(x, y, 'heart');
                 this.physics.arcade.enableBody(heart);
             }
