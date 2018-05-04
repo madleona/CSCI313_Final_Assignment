@@ -1,19 +1,15 @@
+import EnemyModel from '../models/EnemyModel.js';
+
 export default class Enemy extends Phaser.Sprite {
 
     constructor(game, x, y, type, bulletLayer, frame) {
-        // type should be rabbit, mushroom, etc.
+        // type should be rabbit, mushroom, or dragon
         super(game, x, y, type, frame);
         this.type = type;
-        
+        this.enemyModel = new EnemyModel(this.type);
 
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
-
-        if (type == 'rabbit') {
-            this.body.velocity.x = -100;// starting velocity
-        }
-        //else if (type == 'mushroom') {
-        //    this.body.velocity.x = -300;// starting velocity
-        //}
+        this.body.velocity.x = this.enemyModel.xVelocity;
 
         this.bulletLayer = bulletLayer;
         this.outOfBoundsKill = true;
@@ -26,16 +22,6 @@ export default class Enemy extends Phaser.Sprite {
         this.body.bounce.set(1);
 
         this.currentVelocity = this.body.velocity.x;
-
-        this.lives = 0;
-        if (type == 'rabbit') {
-            this.lives = 1;
-        } else if (type == 'mushroom') {
-            this.lives = 2;
-        } else if (type == 'dragon') {
-            this.lives = 3;
-        }
-
     }
 
     changeDirection() {
@@ -67,30 +53,14 @@ export default class Enemy extends Phaser.Sprite {
     }
 
     update() {
-        //this.willFire = Phaser.Utils.chanceRoll(1);
-        //this.willFire = Phaser.Utils.chanceRoll(3);
-        //if (this.willFire) {
-        //    this.fire();
-        //}
+        if (this.visible && this.enemyModel.willFire()) {
+            this.fire();
+        }
+    }
 
-        if (this.type == 'rabbit') {
-            this.willFire = Phaser.Utils.chanceRoll(1);
-            if (this.willFire) {
-                this.fire();
-            }
-        }
-        else if (this.type == 'mushroom') {
-            this.willFire = Phaser.Utils.chanceRoll(1);
-            if (this.willFire) {
-                this.fire();
-            }
-        }
-        else if (this.type == 'dragon') {
-            this.willFire = Phaser.Utils.chanceRoll(5);
-            if (this.willFire) {
-                this.fire();
-            }
-        }
+    damage(amount) {
+        this.enemyModel.damage(amount);
+        this.lives = this.enemyModel.lives;
     }
 
     hitWorldBounds(sprite) {
@@ -102,6 +72,10 @@ export default class Enemy extends Phaser.Sprite {
         // an enemy is moving, its width could be negative ¯\_(?)_/¯
         // So, only one line will fix the offset issue.
         this.body.x -= this.width;
+    }
+
+    destroy() {
+        delete this.enemyModel.type;
     }
 
 }

@@ -77,11 +77,8 @@ export default class Level3 extends Phaser.State {
         var x = enemy.body.x;
         var y = enemy.body.y;
 
-        enemy.lives -= 1;
-
-        // enemy is dead
+        enemy.damage(1);
         if (enemy.lives == 0) {
-            delete enemy.type;
             enemy.kill();
 
             this.numEnemies--;

@@ -95,21 +95,20 @@ export default class Level2 extends Phaser.State {
         heart.kill();
     }
 
-    damagePlayer(playerRef, enemyRef) {
+    damagePlayer(player, enemy) {
         this.health.loseLife();
         if (this.health.livesLeft() == 0) {
-            this.player.damage(100);
+            player.damage(100);
         }
-        enemyRef.kill();
+        enemy.kill();
     }
 
-    damagePlayerEnemy(playerRef, enemyRef) {
+    damagePlayerEnemy(player, enemy) {
         this.health.loseLife();
         if (this.health.livesLeft() == 0) {
-            this.player.damage(100);
+            player.damage(100);
         }
-        enemyRef.kill();
-
+        enemy.kill();
         this.numEnemies--;
     }
 
@@ -119,9 +118,9 @@ export default class Level2 extends Phaser.State {
         var x = enemy.body.x;
         var y = enemy.body.y;
 
-        enemy.lives -= 1;
+        enemy.damage(1);
         if (enemy.lives == 0) {
-            delete enemy.type;
+            console.log(enemy.lives);
             enemy.kill();
 
             var dropsHeart = Phaser.Utils.chanceRoll(100);
