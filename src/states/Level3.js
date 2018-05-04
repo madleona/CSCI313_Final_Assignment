@@ -15,8 +15,8 @@ export default class Level3 extends Phaser.State {
         this.player = new Player(this.game, 43, 650, this.projectiles);
         this.game.add.existing(this.player);
         
-        this.enemyBullets = this.add.group();
         this.enemies = this.add.group();
+        this.enemyBullets = this.add.group();
         let enemy = new Enemy(this.game, 70, 10, 'dragon', this.enemyBullets);
         this.enemies.add(enemy);
 
@@ -116,8 +116,9 @@ export default class Level3 extends Phaser.State {
     }
 
     damageEnemyFromBullet(enemy, bullet) {
-        if (bullet.reflected)
-            this.damageEnemy(enemy, bullet);
+        // Turning this off for the dragon.
+        //if (bullet.reflected)
+        //    this.damageEnemy(enemy, bullet);
     }
 
     enemyBulletCollide(enemyBullet, obstacle) {
