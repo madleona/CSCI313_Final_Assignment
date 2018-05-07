@@ -1,25 +1,53 @@
 export default class StartScreen {
 
+    constructor() {
+        var musicIsPlaying = false;
+    }
 
     create() {
-        //task Add epilogue text, explaining how the Prince got taken by a Dragon and now the Princess has set off on a journey to save him
-        //task Use the following code as an example on how to set text
-        //var style = { font: "75px Comic Sans MS", fill: "#FFFFFF" };
-        //this.game.add.text(125, 225, "Press Spacebar to Play", style);
+        if (!this.musicIsPlaying) {
+            this.playMusic();
+        }
 
-        //task Add some rpg-like music
-
-        console.log('In StartScreen.js, Press SPACEBAR to progress to Level1.js');
+        this.initializeText();
     }
 
     update() {
-        //task If we wanted to be fancy we could have it read off one line of text at a time, using SPACEBAR to progress to the next line of text
-        //task Until you get to the end of the text, then SPACEBAR will take you to Level1
-
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            console.log('Leaving StartScreen.js')
+            this.game.sound.stopAll();
             this.game.state.start('level1');
+        }
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.C)) {
+            this.game.state.start('credits')
         }
     }
 
+    playMusic() {
+        var music = this.game.add.audio('startscreen_music');
+        music.play();
+        music.loopFull();
+        this.musicIsPlaying = true;
+    }
+
+    initializeText() {
+        var style = { font: "16px Comic Sans MS", fill: "#FFFFFF" };
+        this.game.add.text(20, 20, "Once upon a time...", style);
+        this.game.add.text(20, 50, "There lived a Prince and Princess", style);
+        this.game.add.text(20, 70, "who lived happily in a magical land.", style);
+        this.game.add.text(20, 100, "But one day, a dragon attacked their", style);
+        this.game.add.text(20, 120, "castle, and kidnapped the Prince.", style);
+        this.game.add.text(20, 150, "It was up to the Princess to save", style);
+        this.game.add.text(20, 170, "him...", style);
+
+        this.game.add.text(20, 270, "[UP ARROW] -- move forward", style);
+        this.game.add.text(20, 290, "[LEFT ARROW] -- move left", style);
+        this.game.add.text(20, 310, "[RIGHT ARROW] -- move right", style);
+        this.game.add.text(20, 330, "[DOWN ARROW] -- move down", style);
+        this.game.add.text(20, 350, "[SPACEBAR] -- attack", style);
+
+        this.game.add.text(20, 390, "Press [C] to view the credits.", style);
+
+        this.game.add.text(20, 430, "Press [SPACEBAR] to start playing!", style);
+    }
 }
