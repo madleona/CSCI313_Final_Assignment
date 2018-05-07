@@ -2,7 +2,7 @@ import SwordModel from "./SwordModel.js";
 
 export default class PlayerModel
 {
->>>>>>> Dev:src/models/PlayerModel.js
+//>>>>>>> Dev:src/models/PlayerModel.js
 
     constructor(health = 100, max_health = 100) {
         this.max_speed = 200;
